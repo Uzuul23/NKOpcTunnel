@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{50242B74-66E0-4916-884A-36B7DA002C2A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>NkLibrary</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)LIB\</OutDir>
+    <TargetName>$(ProjectName)D</TargetName>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)LIB\</OutDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories);.\src\c\3rd-party;.\src\cpp;.\src\cpp\NkLibrary</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir);%(AdditionalIncludeDirectories);.\src\c\3rd-party;.\src\cpp;.\src\cpp\NkLibrary</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\cpp\com\bstr.h" />
+    <ClInclude Include="src\cpp\com\classfactoryfar.h" />
+    <ClInclude Include="src\cpp\com\classfactorynear.h" />
+    <ClInclude Include="src\cpp\com\comfarsrv.h" />
+    <ClInclude Include="src\cpp\com\comfarunknown.h" />
+    <ClInclude Include="src\cpp\com\comnearsrv.h" />
+    <ClInclude Include="src\cpp\com\comptr.h" />
+    <ClInclude Include="src\cpp\com\comstring.h" />
+    <ClInclude Include="src\cpp\com\connectionpointcontainerfar.h" />
+    <ClInclude Include="src\cpp\com\connectionpointcontainernear.h" />
+    <ClInclude Include="src\cpp\com\connectionpointfar.h" />
+    <ClInclude Include="src\cpp\com\connectionpointnear.h" />
+    <ClInclude Include="src\cpp\com\enum.h" />
+    <ClInclude Include="src\cpp\com\enumfar.h" />
+    <ClInclude Include="src\cpp\com\enumnear.h" />
+    <ClInclude Include="src\cpp\com\interfaces.h" />
+    <ClInclude Include="src\cpp\com\module.h" />
+    <ClInclude Include="src\cpp\com\nearunknown.h" />
+    <ClInclude Include="src\cpp\com\safearray.h" />
+    <ClInclude Include="src\cpp\com\unknownimpl.h" />
+    <ClInclude Include="src\cpp\com\variant.h" />
+    <ClInclude Include="src\cpp\com\vector.h" />
+    <ClInclude Include="src\cpp\error\baseexception.h" />
+    <ClInclude Include="src\cpp\error\error.h" />
+    <ClInclude Include="src\cpp\error\exception.h" />
+    <ClInclude Include="src\cpp\error\socketexception.h" />
+    <ClInclude Include="src\cpp\error\sslexception.h" />
+    <ClInclude Include="src\cpp\error\winapiexception.h" />
+    <ClInclude Include="src\cpp\NkLibrary\NkLibrary.h" />
+    <ClInclude Include="src\cpp\NkLibrary\stdafx.h" />
+    <ClInclude Include="src\cpp\NkLibrary\targetver.h" />
+    <ClInclude Include="src\cpp\opc\opcadvisesinkfar.h" />
+    <ClInclude Include="src\cpp\opc\opcadvisesinknear.h" />
+    <ClInclude Include="src\cpp\opc\opcdatacallbackfar.h" />
+    <ClInclude Include="src\cpp\opc\opcdatacallbacknear.h" />
+    <ClInclude Include="src\cpp\opc\opcenumguidnear.h" />
+    <ClInclude Include="src\cpp\opc\opcfarsrv.h" />
+    <ClInclude Include="src\cpp\opc\opcfarunknown.h" />
+    <ClInclude Include="src\cpp\opc\opcgroupfar.h" />
+    <ClInclude Include="src\cpp\opc\opcgroupnear.h" />
+    <ClInclude Include="src\cpp\opc\opcnearsrv.h" />
+    <ClInclude Include="src\cpp\opc\opcregistry.h" />
+    <ClInclude Include="src\cpp\opc\opcserverfar.h" />
+    <ClInclude Include="src\cpp\opc\opcserverlist2far.h" />
+    <ClInclude Include="src\cpp\opc\opcserverlist2near.h" />
+    <ClInclude Include="src\cpp\opc\opcservernear.h" />
+    <ClInclude Include="src\cpp\opc\opcshutdownfar.h" />
+    <ClInclude Include="src\cpp\opc\opcshutdownnear.h" />
+    <ClInclude Include="src\cpp\opc\opctypes.h" />
+    <ClInclude Include="src\cpp\opc\streamcomptr.h" />
+    <ClInclude Include="src\cpp\service\ServiceBase.h" />
+    <ClInclude Include="src\cpp\service\ServiceManager.h" />
+    <ClInclude Include="src\cpp\socket\interfaces.h" />
+    <ClInclude Include="src\cpp\socket\socket.h" />
+    <ClInclude Include="src\cpp\socket\socketlistener.h" />
+    <ClInclude Include="src\cpp\socket\streamsocketssl.h" />
+    <ClInclude Include="src\cpp\socket\wsaevent.h" />
+    <ClInclude Include="src\cpp\ssl\aes.h" />
+    <ClInclude Include="src\cpp\ssl\NKOpenSSLCtx.h" />
+    <ClInclude Include="src\cpp\ssl\openssl.h" />
+    <ClInclude Include="src\cpp\ssl\sha.h" />
+    <ClInclude Include="src\cpp\stream\interfaces.h" />
+    <ClInclude Include="src\cpp\stream\mtiodevice.h" />
+    <ClInclude Include="src\cpp\stream\stream.h" />
+    <ClInclude Include="src\cpp\threading\event.h" />
+    <ClInclude Include="src\cpp\threading\lock.h" />
+    <ClInclude Include="src\cpp\threading\mutex.h" />
+    <ClInclude Include="src\cpp\threading\workerthread.h" />
+    <ClInclude Include="src\cpp\trace\logfile.h" />
+    <ClInclude Include="src\cpp\trace\trace.h" />
+    <ClInclude Include="src\cpp\types\conversion.h" />
+    <ClInclude Include="src\cpp\types\interfaces.h" />
+    <ClInclude Include="src\cpp\types\String.h" />
+    <ClInclude Include="src\cpp\types\types.h" />
+    <ClInclude Include="src\cpp\types\uniquepointer.h" />
+    <ClInclude Include="src\cpp\util\crc.h" />
+    <ClInclude Include="src\cpp\util\passvault.h" />
+    <ClInclude Include="src\cpp\windows\globalmem.h" />
+    <ClInclude Include="src\cpp\windows\localmachine.h" />
+    <ClInclude Include="src\cpp\windows\registry.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\cpp\com\classfactoryfar.cpp" />
+    <ClCompile Include="src\cpp\com\classfactorynear.cpp" />
+    <ClCompile Include="src\cpp\com\comfarsrv.cpp" />
+    <ClCompile Include="src\cpp\com\comfarunknown.cpp" />
+    <ClCompile Include="src\cpp\com\comnearsrv.cpp" />
+    <ClCompile Include="src\cpp\com\comstring.cpp" />
+    <ClCompile Include="src\cpp\com\connectionpointcontainernear.cpp" />
+    <ClCompile Include="src\cpp\com\connectionpointfar.cpp" />
+    <ClCompile Include="src\cpp\com\connectionpointnear.cpp" />
+    <ClCompile Include="src\cpp\com\safearray.cpp" />
+    <ClCompile Include="src\cpp\error\baseexception.cpp" />
+    <ClCompile Include="src\cpp\error\socketexception.cpp" />
+    <ClCompile Include="src\cpp\error\sslexception.cpp" />
+    <ClCompile Include="src\cpp\error\winapiexception.cpp" />
+    <ClCompile Include="src\cpp\NkLibrary\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcadvisesinkfar.cpp" />
+    <ClCompile Include="src\cpp\opc\opcadvisesinknear.cpp" />
+    <ClCompile Include="src\cpp\opc\opcdatacallbackfar.cpp" />
+    <ClCompile Include="src\cpp\opc\opcdatacallbacknear.cpp" />
+    <ClCompile Include="src\cpp\opc\opcenumguidnear.cpp" />
+    <ClCompile Include="src\cpp\opc\opcfarsrv.cpp" />
+    <ClCompile Include="src\cpp\opc\opcgroupfar.cpp" />
+    <ClCompile Include="src\cpp\opc\opcgroupnear.cpp" />
+    <ClCompile Include="src\cpp\opc\opcnearsrv.cpp" />
+    <ClCompile Include="src\cpp\opc\opcregistry.cpp" />
+    <ClCompile Include="src\cpp\opc\opcserverfar.cpp" />
+    <ClCompile Include="src\cpp\opc\opcserverlist2far.cpp" />
+    <ClCompile Include="src\cpp\opc\opcserverlist2near.cpp" />
+    <ClCompile Include="src\cpp\opc\opcservernear.cpp" />
+    <ClCompile Include="src\cpp\opc\opcshutdownfar.cpp" />
+    <ClCompile Include="src\cpp\opc\opcshutdownnear.cpp" />
+    <ClCompile Include="src\cpp\service\ServiceBase.cpp" />
+    <ClCompile Include="src\cpp\service\ServiceManager.cpp" />
+    <ClCompile Include="src\cpp\socket\socket.cpp" />
+    <ClCompile Include="src\cpp\socket\streamsocketssl.cpp" />
+    <ClCompile Include="src\cpp\socket\wsaevent.cpp" />
+    <ClCompile Include="src\cpp\ssl\aes.cpp" />
+    <ClCompile Include="src\cpp\ssl\NKOpenSSLCtx.cpp" />
+    <ClCompile Include="src\cpp\ssl\sha.cpp" />
+    <ClCompile Include="src\cpp\stream\mtiodevice.cpp" />
+    <ClCompile Include="src\cpp\stream\stream.cpp" />
+    <ClCompile Include="src\cpp\threading\event.cpp" />
+    <ClCompile Include="src\cpp\trace\logfile.cpp" />
+    <ClCompile Include="src\cpp\trace\trace.cpp" />
+    <ClCompile Include="src\cpp\types\String.cpp" />
+    <ClCompile Include="src\cpp\util\passvault.cpp" />
+    <ClCompile Include="src\cpp\windows\localmachine.cpp" />
+    <ClCompile Include="src\cpp\windows\registry.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="NkAfxExt">
+      <UniqueIdentifier>{a37b35b4-a0b5-4fcc-8a0c-2731ff6d7848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkResize">
+      <UniqueIdentifier>{99c3e563-1850-44fc-a84b-51a47be1a0f3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\cpp\3rd-party\resizable\Artistic-License.txt">
+      <Filter>NkResize</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\cpp\3rd-party\resizable\ResizableDialog.cpp">
+      <Filter>NkResize</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\3rd-party\resizable\ResizableFormView.cpp">
+      <Filter>NkResize</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\3rd-party\resizable\ResizableGrip.cpp">
+      <Filter>NkResize</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\3rd-party\resizable\ResizableLayout.cpp">
+      <Filter>NkResize</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\3rd-party\resizable\ResizableMinMax.cpp">
+      <Filter>NkResize</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\3rd-party\resizable\ResizablePage.cpp">
+      <Filter>NkResize</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\3rd-party\resizable\ResizablePageEx.cpp">
+      <Filter>NkResize</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\3rd-party\resizable\ResizableSheet.cpp">
+      <Filter>NkResize</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\3rd-party\resizable\ResizableSheetEx.cpp">
+      <Filter>NkResize</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\3rd-party\resizable\ResizableState.cpp">
+      <Filter>NkResize</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\3rd-party\resizable\stdafx.cpp">
+      <Filter>NkAfxExt</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\cpp\3rd-party\resizable\ResizableDialog.h">
+      <Filter>NkResize</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\ResizableFormView.h">
+      <Filter>NkResize</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\ResizableGrip.h">
+      <Filter>NkResize</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\ResizableLayout.h">
+      <Filter>NkResize</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\ResizableMinMax.h">
+      <Filter>NkResize</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\ResizablePage.h">
+      <Filter>NkResize</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\ResizablePageEx.h">
+      <Filter>NkResize</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\ResizableSheet.h">
+      <Filter>NkResize</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\ResizableSheetEx.h">
+      <Filter>NkResize</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\ResizableState.h">
+      <Filter>NkResize</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\stdafx.h">
+      <Filter>NkAfxExt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\targetver.h">
+      <Filter>NkAfxExt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\3rd-party\resizable\NkAfxExt.h">
+      <Filter>NkAfxExt</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

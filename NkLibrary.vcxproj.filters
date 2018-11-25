@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\cpp\NkLibrary\stdafx.cpp">
+      <Filter>NkLibrary</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\com\classfactoryfar.cpp">
+      <Filter>NkCom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\com\classfactorynear.cpp">
+      <Filter>NkCom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\com\comfarsrv.cpp">
+      <Filter>NkCom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\com\comfarunknown.cpp">
+      <Filter>NkCom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\com\comnearsrv.cpp">
+      <Filter>NkCom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\com\comstring.cpp">
+      <Filter>NkCom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\com\connectionpointcontainernear.cpp">
+      <Filter>NkCom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\com\connectionpointfar.cpp">
+      <Filter>NkCom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\com\connectionpointnear.cpp">
+      <Filter>NkCom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\com\safearray.cpp">
+      <Filter>NkCom</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\error\baseexception.cpp">
+      <Filter>NkError</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\error\socketexception.cpp">
+      <Filter>NkError</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\error\sslexception.cpp">
+      <Filter>NkError</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\error\winapiexception.cpp">
+      <Filter>NkError</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcadvisesinkfar.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcadvisesinknear.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcdatacallbackfar.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcdatacallbacknear.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcenumguidnear.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcfarsrv.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcgroupfar.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcgroupnear.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcnearsrv.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcregistry.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcserverfar.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcserverlist2far.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcserverlist2near.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcservernear.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcshutdownfar.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\opc\opcshutdownnear.cpp">
+      <Filter>NkOpc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\service\ServiceBase.cpp">
+      <Filter>NKService</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\service\ServiceManager.cpp">
+      <Filter>NKService</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\socket\socket.cpp">
+      <Filter>NkSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\socket\streamsocketssl.cpp">
+      <Filter>NkSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\socket\wsaevent.cpp">
+      <Filter>NkSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\ssl\aes.cpp">
+      <Filter>NkSSL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\ssl\NKOpenSSLCtx.cpp">
+      <Filter>NkSSL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\ssl\sha.cpp">
+      <Filter>NkSSL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\stream\mtiodevice.cpp">
+      <Filter>NkStream</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\stream\stream.cpp">
+      <Filter>NkStream</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\threading\event.cpp">
+      <Filter>NkThreading</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\trace\logfile.cpp">
+      <Filter>NkTrace</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\trace\trace.cpp">
+      <Filter>NkTrace</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\types\String.cpp">
+      <Filter>NkType</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\util\passvault.cpp">
+      <Filter>NkUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\windows\localmachine.cpp">
+      <Filter>NkWin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\windows\registry.cpp">
+      <Filter>NkWin</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\cpp\NkLibrary\NkLibrary.h">
+      <Filter>NkLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\NkLibrary\stdafx.h">
+      <Filter>NkLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\NkLibrary\targetver.h">
+      <Filter>NkLibrary</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\bstr.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\classfactoryfar.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\classfactorynear.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\comfarsrv.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\comfarunknown.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\comnearsrv.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\comptr.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\comstring.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\connectionpointcontainerfar.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\connectionpointcontainernear.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\connectionpointfar.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\connectionpointnear.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\enum.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\enumfar.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\enumnear.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\interfaces.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\module.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\nearunknown.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\safearray.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\unknownimpl.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\variant.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\com\vector.h">
+      <Filter>NkCom</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\error\baseexception.h">
+      <Filter>NkError</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\error\error.h">
+      <Filter>NkError</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\error\exception.h">
+      <Filter>NkError</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\error\socketexception.h">
+      <Filter>NkError</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\error\sslexception.h">
+      <Filter>NkError</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\error\winapiexception.h">
+      <Filter>NkError</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcadvisesinkfar.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcadvisesinknear.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcdatacallbackfar.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcdatacallbacknear.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcenumguidnear.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcfarsrv.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcfarunknown.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcgroupfar.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcgroupnear.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcnearsrv.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcregistry.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcserverfar.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcserverlist2far.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcserverlist2near.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcservernear.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcshutdownfar.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opcshutdownnear.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\opctypes.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\opc\streamcomptr.h">
+      <Filter>NkOpc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\service\ServiceBase.h">
+      <Filter>NKService</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\service\ServiceManager.h">
+      <Filter>NKService</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\socket\interfaces.h">
+      <Filter>NkSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\socket\socket.h">
+      <Filter>NkSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\socket\socketlistener.h">
+      <Filter>NkSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\socket\streamsocketssl.h">
+      <Filter>NkSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\socket\wsaevent.h">
+      <Filter>NkSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\ssl\aes.h">
+      <Filter>NkSSL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\ssl\NKOpenSSLCtx.h">
+      <Filter>NkSSL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\ssl\openssl.h">
+      <Filter>NkSSL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\ssl\sha.h">
+      <Filter>NkSSL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\stream\interfaces.h">
+      <Filter>NkStream</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\stream\mtiodevice.h">
+      <Filter>NkStream</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\stream\stream.h">
+      <Filter>NkStream</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\threading\event.h">
+      <Filter>NkThreading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\threading\lock.h">
+      <Filter>NkThreading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\threading\mutex.h">
+      <Filter>NkThreading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\threading\workerthread.h">
+      <Filter>NkThreading</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\trace\logfile.h">
+      <Filter>NkTrace</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\trace\trace.h">
+      <Filter>NkTrace</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\types\conversion.h">
+      <Filter>NkType</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\types\interfaces.h">
+      <Filter>NkType</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\types\String.h">
+      <Filter>NkType</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\types\types.h">
+      <Filter>NkType</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\types\uniquepointer.h">
+      <Filter>NkType</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\util\crc.h">
+      <Filter>NkUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\util\passvault.h">
+      <Filter>NkUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\windows\globalmem.h">
+      <Filter>NkWin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\windows\localmachine.h">
+      <Filter>NkWin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\windows\registry.h">
+      <Filter>NkWin</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="NkCom">
+      <UniqueIdentifier>{e3e3e33a-0f86-4ac5-b49a-49a05a2ac8ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkError">
+      <UniqueIdentifier>{79afa23c-23e4-4bc3-ae2a-cd48fc6837c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkOpc">
+      <UniqueIdentifier>{bcd8eb28-f37e-405d-9429-b5fac169bb4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkThreading">
+      <UniqueIdentifier>{5cbf743d-1505-41b0-8127-4b9afea8b1dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkType">
+      <UniqueIdentifier>{1545c3d0-231c-45c1-93ca-5b8693098d12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkTrace">
+      <UniqueIdentifier>{3621a253-9e4f-4d9a-b9ec-e629fa86ca12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NKService">
+      <UniqueIdentifier>{e2111f3f-de15-421c-bade-b121233e7e94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkSocket">
+      <UniqueIdentifier>{e45a807d-8515-4a39-8303-600e4525f382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkStream">
+      <UniqueIdentifier>{38c7f208-ab67-4732-a17d-360dc7cb916f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkWin">
+      <UniqueIdentifier>{360bb9a0-03e3-484a-aceb-c69c92b53440}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkLibrary">
+      <UniqueIdentifier>{8e241f6f-ee67-4fd2-a831-1b2d84c3768d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkUtil">
+      <UniqueIdentifier>{4fadd01b-c4bc-402b-86a3-ff74747945ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NkSSL">
+      <UniqueIdentifier>{af62f0a7-ba43-40a9-a2d4-5737dcb2f579}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
