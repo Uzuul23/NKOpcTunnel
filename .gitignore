@@ -260,9 +260,9 @@ paket-files/
 __pycache__/
 *.pyc
 
-# projekt defined
-tools/**/*
-lib/**/*
-3rd-party
-icon
-innosetup
+# project defined
+*.exe
+tools
+lib
+idl
+setup

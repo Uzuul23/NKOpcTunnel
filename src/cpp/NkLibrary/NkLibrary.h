@@ -1,5 +1,6 @@
 #pragma once
 
+#include "error/error.h"
 #include "error/exception.h"
 #include "error/baseexception.h"
 #include "error/socketexception.h"
@@ -54,7 +55,6 @@
 #include "opc/opcregistry.h"
 #include "util/crc.h"
 #include "util/passvault.h"
-#include "error/error.h"
 #include "windows/localmachine.h"
 #include "service/ServiceBase.h"
 #include "service/ServiceManager.h"
@@ -73,7 +73,8 @@
 #include "socket/streamsocketssl.h"
 #include "ssl/sha.h"
 #include "ssl/aes.h"
-#pragma comment(lib, "lib/OPENSSL/libeay32.lib")
-#pragma comment(lib, "lib/OPENSSL/ssleay32.lib")
+
+#pragma comment(lib, "libeay32.lib")
+#pragma comment(lib, "ssleay32.lib")
 
 

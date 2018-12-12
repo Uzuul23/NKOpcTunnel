@@ -25,6 +25,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NKTnlClient", "NKTnlClient.
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NkTnlSrv", "NkTnlSrv.vcxproj", "{6D4D1346-4368-4B1E-A381-B10449504252}"
+	ProjectSection(ProjectDependencies) = postProject
+		{50242B74-66E0-4916-884A-36B7DA002C2A} = {50242B74-66E0-4916-884A-36B7DA002C2A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,12 +57,10 @@ Global
 		{B5688F56-553A-4465-ACED-C145771911C5}.Release|x64.ActiveCfg = Release|Win32
 		{F2E1AB4F-4F5E-4B14-816D-4B07FB006BE3}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F2E1AB4F-4F5E-4B14-816D-4B07FB006BE3}.Debug|Win32.Build.0 = Debug|Win32
-		{F2E1AB4F-4F5E-4B14-816D-4B07FB006BE3}.Debug|x64.ActiveCfg = Debug|x64
-		{F2E1AB4F-4F5E-4B14-816D-4B07FB006BE3}.Debug|x64.Build.0 = Debug|x64
+		{F2E1AB4F-4F5E-4B14-816D-4B07FB006BE3}.Debug|x64.ActiveCfg = Debug|Win32
 		{F2E1AB4F-4F5E-4B14-816D-4B07FB006BE3}.Release|Win32.ActiveCfg = Release|Win32
 		{F2E1AB4F-4F5E-4B14-816D-4B07FB006BE3}.Release|Win32.Build.0 = Release|Win32
-		{F2E1AB4F-4F5E-4B14-816D-4B07FB006BE3}.Release|x64.ActiveCfg = Release|x64
-		{F2E1AB4F-4F5E-4B14-816D-4B07FB006BE3}.Release|x64.Build.0 = Release|x64
+		{F2E1AB4F-4F5E-4B14-816D-4B07FB006BE3}.Release|x64.ActiveCfg = Release|Win32
 		{1E39A016-D43E-464B-A917-DD72A9E080F6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{1E39A016-D43E-464B-A917-DD72A9E080F6}.Debug|Win32.Build.0 = Debug|Win32
 		{1E39A016-D43E-464B-A917-DD72A9E080F6}.Debug|x64.ActiveCfg = Debug|Win32
