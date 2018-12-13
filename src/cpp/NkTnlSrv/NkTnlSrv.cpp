@@ -22,6 +22,8 @@ BOOL ctrl_handler(DWORD fdwCtrlType)
 void print_help()
 {
 	wprintf(L"Parameters:\n");
+	wprintf(L" -register\t\"to add the application to the registry\"\n");
+	wprintf(L" -unregister\t\"to remove the application the from registry\"\n");
 	wprintf(L" -install\t\"to install the service\"\n");
 	wprintf(L" -remove\t\"to remove the service\"\n");
 	wprintf(L" -stop\t\t\"to stop the service\"\n");
