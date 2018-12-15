@@ -48,6 +48,7 @@
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(OpenSSL_Include_Path)</IncludePath>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(NETFXKitsDir)Lib\um\x86;$(OpenSSL_Lib_Path)</LibraryPath>
+    <CodeAnalysisRuleSet>MixedRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)LIB\</OutDir>
@@ -176,6 +177,7 @@
     <ClInclude Include="src\cpp\ssl\NKOpenSSLCtx.h" />
     <ClInclude Include="src\cpp\ssl\openssl.h" />
     <ClInclude Include="src\cpp\ssl\sha.h" />
+    <ClInclude Include="src\cpp\ssl\sslsocket.h" />
     <ClInclude Include="src\cpp\stream\interfaces.h" />
     <ClInclude Include="src\cpp\stream\mtiodevice.h" />
     <ClInclude Include="src\cpp\stream\stream.h" />
@@ -239,6 +241,7 @@
     <ClCompile Include="src\cpp\ssl\aes.cpp" />
     <ClCompile Include="src\cpp\ssl\NKOpenSSLCtx.cpp" />
     <ClCompile Include="src\cpp\ssl\sha.cpp" />
+    <ClCompile Include="src\cpp\ssl\sslsocket.cpp" />
     <ClCompile Include="src\cpp\stream\mtiodevice.cpp" />
     <ClCompile Include="src\cpp\stream\stream.cpp" />
     <ClCompile Include="src\cpp\threading\event.cpp" />

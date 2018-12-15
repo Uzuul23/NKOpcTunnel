@@ -1,5 +1,4 @@
 #pragma once
-//#include "com/interfaces.h"
 
 class CNkTnlSrvService 
 	: public NkService::CServiceBase
@@ -29,9 +28,7 @@ private:
 	NkTrace::CLogFile *m_pLogFile = 0;
 	NkThreading::CCriticalSection m_lock;
 	bool m_shutdown;
+	bool m_use_ssl = true;
 	ULONG32 m_next_server_id = 0;
-
-#if defined NK_USE_SSL
 	NkSSL::CNKOpenSSLCtx m_ssl_ctx;
-#endif
 };

@@ -49,6 +49,7 @@ END_MESSAGE_MAP()
 CNkTnlServerCnfDlg::CNkTnlServerCnfDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_NKTNLSERVERCNF_DIALOG, pParent)
 	, m_strEditServiceStatus(_T(""))
+	, m_bServerUseSSL(FALSE)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -61,6 +62,7 @@ void CNkTnlServerCnfDlg::DoDataExchange(CDataExchange* pDX)
 	DDV_MinMaxInt(pDX, m_nPort, 100, 65000);
 	DDX_IPAddress(pDX, IDC_IPADDRESS, m_dwIPAdresse);
 	DDX_Control(pDX, IDC_TRACE_LEVEL, m_wndTraceLevel);
+	DDX_Check(pDX, IDC_CHECK_USE_SSL, m_bServerUseSSL);
 }
 
 BEGIN_MESSAGE_MAP(CNkTnlServerCnfDlg, CDialogEx)
@@ -78,6 +80,7 @@ BEGIN_MESSAGE_MAP(CNkTnlServerCnfDlg, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT_PORT, &CNkTnlServerCnfDlg::OnEnChangeEditPort)
 	ON_BN_CLICKED(IDC_BUTTON_PASSWORD, &CNkTnlServerCnfDlg::OnBnClickedButtonPassword)
 	ON_CBN_SELCHANGE(IDC_TRACE_LEVEL, &CNkTnlServerCnfDlg::OnCbnSelchangeTraceLevel)
+	ON_BN_CLICKED(IDC_CHECK_USE_SSL, &CNkTnlServerCnfDlg::OnBnClickedCheckUseSsl)
 END_MESSAGE_MAP()
 
 // CNkTnlServerCnfDlg message handlers
@@ -164,6 +167,7 @@ BOOL CNkTnlServerCnfDlg::OnInitDialog()
 		m_nPort = NkOPC::CTunnelRegEntry::ServerPort();
 		m_dwIPAdresse = NkOPC::CTunnelRegEntry::ServerIP();
 		m_wndTraceLevel.SetCurSel(NkOPC::CTunnelRegEntry::ServerTraceLevel());
+		m_bServerUseSSL = NkOPC::CTunnelRegEntry::ServerUseSSL();
 	}
 	catch (NkError::CException& e) {
 		e.report();
@@ -190,6 +194,7 @@ bool CNkTnlServerCnfDlg::Apply()
 	{
 		NkOPC::CTunnelRegEntry::ServerPort(m_nPort);
 		NkOPC::CTunnelRegEntry::ServerIP(m_dwIPAdresse);
+		NkOPC::CTunnelRegEntry::ServerUseSSL(m_bServerUseSSL);
 
 		int sel = m_wndTraceLevel.GetCurSel();
 		if (sel != -1) {
@@ -534,6 +539,13 @@ void CNkTnlServerCnfDlg::OnCbnSelchangeTraceLevel()
 			m_wndTraceLevel.SetCurSel(1);
 		}
 	}
+	Changed();
+	NeedRestart();
+}
+
+
+void CNkTnlServerCnfDlg::OnBnClickedCheckUseSsl()
+{
 	Changed();
 	NeedRestart();
 }

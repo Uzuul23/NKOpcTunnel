@@ -1,66 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
+    <Filter Include="Quelldateien">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
+    <Filter Include="Headerdateien">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
+    <Filter Include="Ressourcendateien">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="src\cpp\NkTnlServerCnf\res\NkTnlServerCnf.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\cpp\NkTnlServerCnf\res\NkTnlServerCnf.rc2">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="src\cpp\NkTnlServerCnf\NkTnlServerCnf.rc">
-      <Filter>Resource Files</Filter>
+      <Filter>Ressourcendateien</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cpp\NkTnlServerCnf\NkTnlServerCnf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\NkTnlServerCnf\NkTnlServerCnfDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\NkTnlServerCnf\PassDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\NkTnlServerCnf\stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <None Include="src\cpp\NkTnlServerCnf\res\NkTnlServerCnf.rc2">
+      <Filter>Ressourcendateien</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\cpp\NkTnlServerCnf\NkTnlServerCnf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cpp\NkTnlServerCnf\NkTnlServerCnfDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cpp\NkTnlServerCnf\PassDlg.h">
-      <Filter>Header Files</Filter>
+    <Image Include="src\cpp\NkTnlServerCnf\res\NkTnlServerCnf.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\cpp\NkTnlServerCnf\stdafx.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\cpp\NkTnlServerCnf\resource.h">
-      <Filter>Header Files</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="src\cpp\NkTnlServerCnf\stdafx.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\cpp\NkTnlServerCnf\NkTnlServerCnfDlg.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\NkTnlServerCnf\PassDlg.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\NkTnlServerCnf\NkTnlServerCnf.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="src\cpp\NkTnlServerCnf\targetver.h">
-      <Filter>Header Files</Filter>
+      <Filter>Headerdateien</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\cpp\NkTnlServerCnf\PassDlg.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\NkTnlServerCnf\NkTnlServerCnfDlg.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\NkTnlServerCnf\NkTnlServerCnf.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\NkTnlServerCnf\stdafx.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

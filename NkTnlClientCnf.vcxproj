@@ -34,6 +34,14 @@
   <ItemGroup>
     <ResourceCompile Include="src\cpp\NkTnlClientCnf\NkTnlClientCnf.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\cpp\NkTnlClientCnf\res\NkTnlClientCnf.ico" />
+    <Image Include="src\cpp\NkTnlClientCnf\res\servertree.bmp" />
+    <Image Include="src\cpp\NkTnlClientCnf\res\servertree_hc.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\cpp\NkTnlClientCnf\res\NkTnlClientCnf.rc2" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B5688F56-553A-4465-ACED-C145771911C5}</ProjectGuid>
     <RootNamespace>NkTnlClientCnf</RootNamespace>

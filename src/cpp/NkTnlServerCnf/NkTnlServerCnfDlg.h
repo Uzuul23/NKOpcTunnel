@@ -47,4 +47,8 @@ private:
 public:
 	afx_msg void OnCbnSelchangeTraceLevel();
 	CComboBox m_wndTraceLevel;
+private:
+	BOOL m_bServerUseSSL;
+public:
+	afx_msg void OnBnClickedCheckUseSsl();
 };

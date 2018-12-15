@@ -145,6 +145,9 @@
     <ClCompile Include="src\cpp\windows\registry.cpp">
       <Filter>NkWin</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\ssl\sslsocket.cpp">
+      <Filter>NkSSL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cpp\NkLibrary\NkLibrary.h">
@@ -386,6 +389,9 @@
     </ClInclude>
     <ClInclude Include="src\cpp\windows\registry.h">
       <Filter>NkWin</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\ssl\sslsocket.h">
+      <Filter>NkSSL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

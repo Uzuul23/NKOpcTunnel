@@ -11,6 +11,8 @@
 
 #define _MIDL_USE_GUIDDEF_
 
+#define NK_USE_SSL
+
 #include "NkLibrary/NkLibrary.h"
 #include "NkOpcTunnel/defines.h"
 

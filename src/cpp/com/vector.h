@@ -104,7 +104,7 @@ namespace NkCom
 				static_cast<T*>(this)->copy_element(p, &_p[i]);
 			}
 			__if_not_exists(T::copy_element) {
-				memcpy(p, &_p[i], sizeof(VectorType));
+				memcpy_s(p, sizeof(VectorType), &_p[i], sizeof(VectorType));
 			}
 		}
 		void copy_to(CVectorBase<T, VectorType, SizeType>& vec)

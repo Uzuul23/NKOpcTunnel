@@ -15,6 +15,15 @@ namespace NkType
 		return b == TRUE ? true : false;
 	}
 
+	inline static BOOL to_BOOL(DWORD dw)
+	{
+		return dw != 0 ? TRUE : FALSE;
+	}
+	inline static bool to_bool(DWORD dw)
+	{
+		return dw != 0 ? true : false;
+	}
+
 	template<typename PointerType>
 	inline void zero(PointerType** pp)
 	{

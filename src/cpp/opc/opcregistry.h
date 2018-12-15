@@ -73,6 +73,9 @@ namespace NkOPC
 		static void SetPassHash(const BYTE digest[], size_t cb);
 		static int ServerTraceLevel();
 		static void ServerTraceLevel(int val);
+		static void ServerUseSSL(BOOL value);
+		static BOOL ServerUseSSL();
+
 
 		//client
 		static int ClientTraceLevel();

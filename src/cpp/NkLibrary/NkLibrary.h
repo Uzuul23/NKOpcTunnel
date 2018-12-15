@@ -12,6 +12,7 @@
 #include "types/conversion.h"
 #include "types/String.h"
 #include "types/uniquepointer.h"
+#include "types/conversion.h"
 #include "threading/event.h"
 #include "threading/lock.h"
 #include "threading/mutex.h"
@@ -70,7 +71,7 @@
 #endif
 
 #include "ssl/NKOpenSSLCtx.h"
-#include "socket/streamsocketssl.h"
+#include "ssl/sslsocket.h"
 #include "ssl/sha.h"
 #include "ssl/aes.h"
 

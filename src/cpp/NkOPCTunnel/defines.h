@@ -17,12 +17,19 @@ namespace NKOPCTnl
 	static const wchar_t RegValueServerTraceLevel[] = L"ServerTraceLevel";
 	static const wchar_t RegValueClientTraceLevel[] = L"ClientTraceLevel";
 	static const wchar_t RegValueClientPass[] = L"Pass";
+	static const wchar_t RegValueServerUseSSL[] = L"UseSSL";
+	//static const wchar_t RegValueServerCertPath[] = L"ServerCertPath";
+
 
 	//logs
 	static const wchar_t LogPath[] = L"NkOPCTunnel"; //CSIDL_COMMON_APPDATA
 	static const wchar_t ServerLogAppName[] = L"NkOPCTunnelSrv";
 	static const wchar_t ClientLogAppName[] = L"NKOPCTunnelClient";
+	
+	//defaults
 	static const int DefaultTraceLevel = 1;
+	static const int DefaultServerUseSSL = 1;
+
 	
 	//service
 	const wchar_t ServiceName[] = L"NkTnlSrv";

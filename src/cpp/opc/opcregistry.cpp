@@ -3,6 +3,7 @@
 #include "NkOpcTunnel/defines.h"
 #include "ssl/aes.h"
 #include "windows/localmachine.h"
+#include "types/conversion.h"
 
 namespace NkOPC
 {
@@ -559,6 +560,20 @@ namespace NkOPC
 		NkWin::CRegistry keySettings;
 		keySettings.Open(NKOPCTnl::RegKeySettings, key, KEY_WRITE);
 		keySettings.SetValue(static_cast<DWORD>(val), NKOPCTnl::RegValueServerTraceLevel);
+	}
+
+	void CTunnelRegEntry::ServerUseSSL(BOOL value)
+	{
+		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_READ);
+		NkWin::CRegistry keySettings;
+		keySettings.Open(NKOPCTnl::RegKeySettings, key, KEY_WRITE);
+		keySettings.SetValue(static_cast<DWORD>(value), NKOPCTnl::RegValueServerUseSSL);
+	}
+
+	BOOL CTunnelRegEntry::ServerUseSSL()
+	{
+		NkWin::CRegistry key(NKOPCTnl::RegKeySettings, HKEY_LOCAL_MACHINE, KEY_READ);
+		return NkType::to_BOOL(key.QueryValueDWORD(NKOPCTnl::DefaultServerUseSSL, NKOPCTnl::RegValueServerUseSSL));
 	}
 
 	int CTunnelRegEntry::ClientTraceLevel()

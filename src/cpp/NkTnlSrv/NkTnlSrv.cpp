@@ -61,6 +61,9 @@ int wmain(int argc, wchar_t *argv[])
 				key.CreateKey(NKOPCTnl::RegKeySettings, &keySettings, KEY_WRITE);
 				keySettings.SetValue(NKOPCTnl::DefaultServerIP, NKOPCTnl::RegValueServerIPAddress);
 
+				key.CreateKey(NKOPCTnl::RegKeySettings, &keySettings, KEY_WRITE);
+				keySettings.SetValue(NKOPCTnl::DefaultServerUseSSL, NKOPCTnl::RegValueServerUseSSL);
+
 				wprintf(L"%s successfully registered", NKOPCTnl::ServiceName);
 			}
 			else if (_wcsicmp(L"unregister", argv[1] + 1) == 0) {
@@ -70,6 +73,7 @@ int wmain(int argc, wchar_t *argv[])
 				keySettings.DeleteKeyValue(NKOPCTnl::RegValueServerInstallPath);
 				keySettings.DeleteKeyValue(NKOPCTnl::RegValueServerPort);
 				keySettings.DeleteKeyValue(NKOPCTnl::RegValueServerIPAddress);
+				keySettings.DeleteKeyValue(NKOPCTnl::RegValueServerUseSSL);
 
 				wprintf(L"%s successfully registration removed", NKOPCTnl::ServiceName);
 			}
