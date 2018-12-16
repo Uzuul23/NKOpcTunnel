@@ -41,6 +41,8 @@ namespace NkOPC
 		void RemoteServerIPAddress(DWORD psz);
 		DWORD RemoteServerPort();
 		void RemoteServerPort(DWORD Value);
+		BOOL RemoteServerUseSSL();
+		void RemoteServerUseSSL(BOOL val);
 		DWORD ClsContext();
 		void ClsContext(DWORD Value);
 		CLSID RemoteServerCLSID();

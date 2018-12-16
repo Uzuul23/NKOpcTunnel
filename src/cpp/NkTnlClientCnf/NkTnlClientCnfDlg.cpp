@@ -207,6 +207,7 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonAdd()
 			Entry.RemoteServerDA1(dlg.m_bRemoteServerDA1);
 			Entry.RemoteServerDA2(dlg.m_bRemoteServerDA2);
 			Entry.RemoteServerDA3(dlg.m_bRemoteServerDA3);
+			Entry.RemoteServerUseSSL(dlg.m_bUseSSL);
 
 			/*if (dlg.m_strPass.GetLength() > 0) {
 				size_t cb = (dlg.m_strPass.GetLength()+1) * 2;
@@ -244,6 +245,7 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonEdit()
 		dlg.m_bRemoteServerDA1 = Entry.RemoteServerDA1();
 		dlg.m_bRemoteServerDA2 = Entry.RemoteServerDA2();
 		dlg.m_bRemoteServerDA3 = Entry.RemoteServerDA3();
+		dlg.m_bUseSSL = Entry.RemoteServerUseSSL();
 
 		/*try {
 			size_t cb_plain = Entry.RemoteServerPassPlainSize();
@@ -281,6 +283,7 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonEdit()
 			Entry.RemoteServerDA1(dlg.m_bRemoteServerDA1);
 			Entry.RemoteServerDA2(dlg.m_bRemoteServerDA2);
 			Entry.RemoteServerDA3(dlg.m_bRemoteServerDA3);
+			Entry.RemoteServerUseSSL(dlg.m_bUseSSL);
 
 			/*if (dlg.m_strPass.GetLength() > 0) {
 				size_t cb = (dlg.m_strPass.GetLength() + 1) * 2;

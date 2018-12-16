@@ -63,7 +63,18 @@ BOOL CNkTnlBrowseOPCServerDlg::OnInitDialog()
 
 	try
 	{
-		NkCom::CComPtr<NkCom::CServer> spSrv(NkOPC::COPCNearSrv::create_new_server(m_strServerAddr));
+		NkCom::CComPtr<NkCom::CServer> spSrv;
+
+		if (m_bUseSSL) {
+			NkSSL::CNKOpenSSLCtx ctx;
+			ctx.create_TLSv1_2_client();
+			ctx.load_verify_locations("C:\\Users\\Uzuul\\Documents\\Visual Studio 2017\\Projects\\NkOpcTunnel\\cert\\ca\\cacert.pem");
+			ctx.set_verify();
+			spSrv = NkOPC::COPCNearSrv::create_new_server_ssl(m_strServerAddr, ctx);
+		}
+		else {
+			spSrv = NkOPC::COPCNearSrv::create_new_server(m_strServerAddr);
+		}
 
 		ASSERT(m_pvecPass);
 		if (m_pvecPass == 0) {

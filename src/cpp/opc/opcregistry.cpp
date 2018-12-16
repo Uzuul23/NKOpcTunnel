@@ -223,6 +223,19 @@ namespace NkOPC
 		return m_TmpKey.QueryValueDWORD(L"Port");
 	}
 
+	BOOL CTunnelRegEntry::RemoteServerUseSSL()
+	{
+		m_TmpKey.Open(L"RemoteServer", m_KeyClassesCLSIDClass, KEY_READ);
+		return NkType::to_BOOL(m_TmpKey.QueryValueDWORD(L"UseSSL"));
+	}
+
+	void CTunnelRegEntry::RemoteServerUseSSL(BOOL val)
+	{
+		m_TmpKey.Close();
+		m_KeyClassesCLSIDClass.CreateKey(L"RemoteServer", &m_TmpKey, KEY_WRITE);
+		m_TmpKey.SetValue(static_cast<DWORD>(val), L"UseSSL");
+	}
+
 	void CTunnelRegEntry::ClsContext(DWORD Value)
 	{
 		m_TmpKey.Close();

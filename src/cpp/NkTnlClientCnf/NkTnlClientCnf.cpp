@@ -48,7 +48,9 @@ BOOL CNkTnlClientCnfApp::InitInstance()
 
 	AfxEnableControlContainer();
 	::CoInitializeEx(0, COINIT_MULTITHREADED);
+
 	NkSocket::CSocket::initialize();
+	NkSSL::CNKOpenSSLCtx::initialize();
 
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size
@@ -91,6 +93,7 @@ int CNkTnlClientCnfApp::ExitInstance()
 	NkTrace::CTrace::Instance().UnSubscribe(this);
 
 	NkSocket::CSocket::cleanup();
+	NkSSL::CNKOpenSSLCtx::cleanup();
 	CoUninitialize();
 
 	return CWinApp::ExitInstance();

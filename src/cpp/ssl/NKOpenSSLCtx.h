@@ -4,7 +4,6 @@
 #define MYDLLEXPORT
 #endif
 
-#if defined NK_USE_SSL
 #include "openssl/ssl.h"
 #include "openssl/ossl_typ.h"
 
@@ -14,6 +13,8 @@ namespace NkSSL
 	{
 	public:
 		CNKOpenSSLCtx();
+		CNKOpenSSLCtx(const CNKOpenSSLCtx&) = delete; 
+		CNKOpenSSLCtx & operator =(const CNKOpenSSLCtx&) = delete;
 		virtual ~CNKOpenSSLCtx(void);
 
 		static void initialize();
@@ -24,17 +25,14 @@ namespace NkSSL
 		SSL_CTX* data();
 
 		void certificate_file(const char* psz);
-		void load_verify_locations(const char* psz);
+		void load_verify_locations(const char* psz_file, const char* psz_path = 0);
 		void use_private_key_file(const char* psz);
 		void set_default_passwd(const char* psz);
 		void set_verify(int mode = SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT);
 
-	private:
-		CNKOpenSSLCtx & operator =(const CNKOpenSSLCtx&);
-		CNKOpenSSLCtx(const CNKOpenSSLCtx&);
+	private:		
 		class CImpl;
 		CImpl* _Impl;
 	};
 }
 
-#endif

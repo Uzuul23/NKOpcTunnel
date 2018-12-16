@@ -8,6 +8,8 @@
 #include "opc/opcdatacallbackfar.h"
 #include "error/exception.h"
 #include "socket/socket.h"
+#include "ssl/sslsocket.h"
+#include "ssl/NKOpenSSLCtx.h"
 #include "socket/streamsocketssl.h"
 
 
@@ -20,38 +22,22 @@ namespace NkOPC
 
 	}
 
-	//NkCom::CServer* COPCNearSrv::create_new_server(NkSocket::CBind* pAddressInfo
-	//	, NkCom::CModule *pModule /*= 0*/, NkCom::CLogonEvent *pLogon/* = 0*/)
-	//{
-	//	NkSocket::CStreamSocket* pSocket = 0;
-	//	NkOPC::COPCNearSrv* pServer = 0;
-	//	try {
-	//		pSocket = new NkSocket::CStreamSocket;
-	//		pSocket->connect(pAddressInfo);
-	//		pServer = new NkOPC::COPCNearSrv(pSocket, pModule);
-	//		if (pLogon) {
-	//			pLogon->on_logon(pServer);
-	//		}
-	//		return pServer;
-	//	}
-	//	catch (NkError::CException& e) {
-	//		e.report();
-	//		delete pSocket;
-	//		delete pServer;
-	//		throw;
-	//	}
-	//	return 0;
-	//}
-
-	COPCNearSrv* COPCNearSrv::create_new_server(const char* addr
+	NkOPC::COPCNearSrv* COPCNearSrv::create_new_server(const char* addr
 		, NkCom::CModule *pModule /*= 0*/, NkCom::CLogonEvent *pLogon/* = 0*/)
 	{
-		NkSocket::CSocket* pSocket = 0;
+
 		NkOPC::COPCNearSrv* pServer = 0;
 		try {
-			pSocket = new NkSocket::CSocket;
-			pSocket->socket();
-			pSocket->connect(addr);
+			NkSocket::CSocket* pSocket = new NkSocket::CSocket;
+			try {
+				pSocket->socket();
+				pSocket->connect(addr);
+			}
+			catch (...) {
+				delete pSocket;
+				throw;
+			}
+			
 			pServer = new NkOPC::COPCNearSrv(pSocket, pModule);
 			if (pLogon) {
 				pLogon->on_logon(pServer);
@@ -60,33 +46,43 @@ namespace NkOPC
 		}
 		catch (NkError::CException& e) {
 			e.report();
-			delete pSocket;
 			delete pServer;
 			throw;
 		}
 		return 0;
 	}
 
-#if defined NK_USE_SSL
-	NkCom::CServer* COPCNearSrv::create_new_server_ssl(const NkSocket::CBind& bind, NkSSL::CNKOpenSSLCtx& ssl_ctx, NkCom::CModule *pModule /*= 0*/)
+	NkOPC::COPCNearSrv* COPCNearSrv::create_new_server_ssl(const char* addr
+		, NkSSL::CNKOpenSSLCtx& ctx, NkCom::CModule *pModule /*= 0*/
+		, NkCom::CLogonEvent *pLogon/* = 0*/)
 	{
-		NkSocket::CStreamSocketSSl* pSocket = 0;
 		NkOPC::COPCNearSrv* pServer = 0;
 		try {
-			pSocket = new NkSocket::CStreamSocketSSl;
-			pSocket->connect(bind, ssl_ctx);
+			NkSSL::CSSLSocket *pSocket = new NkSSL::CSSLSocket;
+			try {
+				pSocket->socket();
+				pSocket->connect(addr);
+				pSocket->ssl_connect(ctx);
+			}
+			catch (...) {
+				delete pSocket;
+				throw;
+			}
+
 			pServer = new NkOPC::COPCNearSrv(pSocket, pModule);
+
+			if (pLogon) {
+				pLogon->on_logon(pServer);
+			}
 			return pServer;
 		}
 		catch (NkError::CException& e) {
 			e.report();
-			delete pSocket;
 			delete pServer;
 			throw;
 		}
 		return 0;
 	}
-#endif
 
 	void COPCNearSrv::create_near_proxy(REFIID proxy_iid, REFIID riid, void** ppv, ULONG32 id)
 	{

@@ -63,6 +63,7 @@ public:
 	};
 
 	CStringA m_strServerAddr;
+	BOOL m_bUseSSL;
 	std::vector<BYTE> *m_pvecPass = 0;
 	CServerInfo* GetSelServerInfo();
 

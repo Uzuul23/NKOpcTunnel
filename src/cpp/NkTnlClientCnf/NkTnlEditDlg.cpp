@@ -17,6 +17,7 @@ CNkTnlEditDlg::CNkTnlEditDlg(CWnd* pParent /*=NULL*/)
 	, m_bRemoteServerDA1(FALSE)
 	, m_bRemoteServerDA2(FALSE)
 	, m_bRemoteServerDA3(FALSE)
+	, m_bUseSSL(TRUE)
 {
 }
 
@@ -38,12 +39,14 @@ void CNkTnlEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_DA3, m_bRemoteServerDA3);
 	DDX_Control(pDX, IDC_STATIC_UNIQUE, m_wndStaticError);
 	DDX_Control(pDX, IDOK, m_wndOK);
+	DDX_Check(pDX, IDC_CHECK_USE_SSL, m_bUseSSL);
 }
 
 BEGIN_MESSAGE_MAP(CNkTnlEditDlg, CDialog)
 	ON_EN_CHANGE(IDC_EDIT_NAME, &CNkTnlEditDlg::OnEnChangeEditName)
 	ON_BN_CLICKED(IDC_BUTTON_SELECT_OPC_SERVER, &CNkTnlEditDlg::OnBnClickedButtonSelectOpcServer)
 	ON_BN_CLICKED(IDC_BUTTON_PASS, &CNkTnlEditDlg::OnBnClickedButtonPass)
+	ON_BN_CLICKED(IDC_CHECK_USE_SSL, &CNkTnlEditDlg::OnBnClickedCheckUseSsl)
 END_MESSAGE_MAP()
 
 BOOL CNkTnlEditDlg::OnInitDialog()
@@ -69,6 +72,11 @@ void CNkTnlEditDlg::OnEnChangeEditName()
 	m_wndOK.EnableWindow(TRUE);
 }
 
+void CNkTnlEditDlg::OnBnClickedCheckUseSsl()
+{
+	m_wndOK.EnableWindow(TRUE);
+}
+
 void CNkTnlEditDlg::OnBnClickedButtonSelectOpcServer()
 {
 	UpdateData();
@@ -77,6 +85,8 @@ void CNkTnlEditDlg::OnBnClickedButtonSelectOpcServer()
 
 	NkType::to_Addr<CStringA>(m_dwRemoteServerIPAddress
 		, m_dwRemoteServerPort, dlg.m_strServerAddr);
+
+	dlg.m_bUseSSL = m_bUseSSL;
 
 	if (dlg.DoModal() == IDOK) {
 		CNkTnlBrowseOPCServerDlg::CServerInfo* pInfo = dlg.GetSelServerInfo();
@@ -131,3 +141,5 @@ void CNkTnlEditDlg::OnOK()
 	}
 	__super::OnOK();
 }
+
+

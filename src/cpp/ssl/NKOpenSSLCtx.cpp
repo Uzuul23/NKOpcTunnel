@@ -110,11 +110,11 @@ namespace NkSSL
 		NkError::CSSLException::check_result(ret, "SSL_CTX_use_certificate_file", __FILE__, __LINE__);
 	}
 
-	void CNKOpenSSLCtx::load_verify_locations(const char* psz)
+	void CNKOpenSSLCtx::load_verify_locations(const char* psz_file, const char* psz_path /*= 0*/)
 	{
 		NkError::CBaseException::check_pointer(_Impl->m_pSSL_ctx, __FILE__, __LINE__);
 
-		int ret = SSL_CTX_load_verify_locations(_Impl->m_pSSL_ctx, psz, 0);
+		int ret = SSL_CTX_load_verify_locations(_Impl->m_pSSL_ctx, psz_file, psz_path);
 		NkError::CSSLException::check_result(ret, "SSL_CTX_load_verify_locations", __FILE__, __LINE__);
 	}
 

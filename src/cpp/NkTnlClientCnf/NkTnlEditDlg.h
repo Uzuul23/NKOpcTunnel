@@ -37,4 +37,6 @@ private:
 	virtual void OnOK();
 public:
 	virtual BOOL OnInitDialog();
+	BOOL m_bUseSSL;
+	afx_msg void OnBnClickedCheckUseSsl();
 };

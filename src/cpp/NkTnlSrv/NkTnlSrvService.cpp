@@ -121,36 +121,33 @@ void CNkTnlSrvService::on_accept(SOCKET so)
 {
 	NkThreading::CLockGuard lock(m_lock);
 
-//#if defined NK_USE_SSL
-//	NkSocket::CStreamSocketSSl* p_socket = 0;
-//	NkOPC::COPCFarSrv* p_server = 0;
-//
-//	try {
-//		p_socket = new NkSocket::CStreamSocketSSl();
-//		p_socket->accept(so, m_ssl_ctx);
-//
-//		p_server = new NkOPC::COPCFarSrv(p_socket, this, true);
-//		p_server->AddRef();
-//
-//		m_Servers.push_back(p_server);
-//	}
-//	catch (NkError::CException& e) {
-//		delete p_socket;
-//		delete p_server;
-//		e.report();
-//	}
-//#else
-
 	NkOPC::COPCFarSrv* p_server = 0;
+
 	try {
 
 		if (m_use_ssl)
 		{
-			NkSSL::CSSLSocket* p_socket = new NkSSL::CSSLSocket(so, m_ssl_ctx);
+			NkSSL::CSSLSocket* p_socket = new NkSSL::CSSLSocket(so);
+
+			try {
+				p_socket->ssl_accept(m_ssl_ctx);
+			}
+			catch(...){
+				delete p_socket;
+				throw;
+			}
+
 			NkOPC::COPCFarSrv* p_server = new NkOPC::COPCFarSrv(p_socket, this, true);
 
 			p_server->server_id(++m_next_server_id);
 			p_server->AddRef();
+
+			//TODO: will crash!
+			/*std::string peer_name;
+			p_socket->get_peer_addr(peer_name);
+			NkTrace::CTrace::trace_info("COPCFarSrv -- client[%d] connected from : %s"
+				, m_next_server_id, peer_name.c_str());*/
+				
 		}
 		else
 		{
