@@ -1,4 +1,5 @@
-# OPCTunneller
+# NkOPCTunnel
+
 allows OPC (classic) data transfers between computers over TCP/IP without DCOM
 
 operating system: Microsoft Windows7 or greater

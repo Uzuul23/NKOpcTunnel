@@ -1,19 +1,3 @@
-// ResizableGrip.h: interface for the CResizableGrip class.
-//
-/////////////////////////////////////////////////////////////////////////////
-//
-// Copyright (C) 2000-2001 by Paolo Messina
-// (http://www.geocities.com/ppescher - ppescher@yahoo.com)
-//
-// The contents of this file are subject to the Artistic License (the "License").
-// You may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at:
-// http://www.opensource.org/licenses/artistic-license.html
-//
-// If you find this code useful, credits would be nice!
-//
-/////////////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_RESIZABLEGRIP_H__INCLUDED_)
 #define AFX_RESIZABLEGRIP_H__INCLUDED_
 
