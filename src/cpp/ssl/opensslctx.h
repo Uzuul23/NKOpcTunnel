@@ -7,15 +7,15 @@
 #include "openssl/ssl.h"
 #include "openssl/ossl_typ.h"
 
-namespace NkSSL
-{
-	class MYDLLEXPORT CNKOpenSSLCtx
-	{
+namespace nk_ssl {
+	class MYDLLEXPORT c_open_ssl_ctx {
 	public:
-		CNKOpenSSLCtx();
-		CNKOpenSSLCtx(const CNKOpenSSLCtx&) = delete; 
-		CNKOpenSSLCtx & operator =(const CNKOpenSSLCtx&) = delete;
-		virtual ~CNKOpenSSLCtx(void);
+		c_open_ssl_ctx();
+		c_open_ssl_ctx(const c_open_ssl_ctx&) = delete;
+		c_open_ssl_ctx(const c_open_ssl_ctx&&) = delete;
+		c_open_ssl_ctx& operator =(const c_open_ssl_ctx&) = delete;
+		c_open_ssl_ctx& operator =(const c_open_ssl_ctx&&) = delete;
+		virtual ~c_open_ssl_ctx();
 
 		static void initialize();
 		static void cleanup();
@@ -25,14 +25,13 @@ namespace NkSSL
 		SSL_CTX* data();
 
 		void certificate_file(const char* psz);
-		void load_verify_locations(const char* psz_file, const char* psz_path = 0);
+		void load_verify_locations(const char* psz_file, const char* psz_path = nullptr);
 		void use_private_key_file(const char* psz);
-		void set_default_passwd(const char* psz);
+		void set_default_password(const char* psz);
 		void set_verify(int mode = SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT);
 
-	private:		
+	private:
 		class CImpl;
 		CImpl* _Impl;
 	};
 }
-

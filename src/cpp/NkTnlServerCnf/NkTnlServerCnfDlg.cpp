@@ -520,7 +520,7 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonPassword()
 	if (dlg.DoModal() == IDOK) {
 		try {
 			dlg.m_strPassOK += NKOPCTnl::Salt;
-			NkSSL::CSHA::SHA256(reinterpret_cast<BYTE*>(dlg.m_strPassOK.GetBuffer())
+			nk_ssl::CSHA::SHA256(reinterpret_cast<BYTE*>(dlg.m_strPassOK.GetBuffer())
 				, dlg.m_strPassOK.GetLength() * sizeof(wchar_t), m_digest);
 			m_bPassChanged = true;
 			Changed();

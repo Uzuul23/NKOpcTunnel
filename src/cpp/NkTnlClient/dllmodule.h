@@ -20,6 +20,6 @@ private:
 
 
 #if defined NK_USE_SSL
-	NkSSL::CNKOpenSSLCtx m_ssl_ctx;
+	nk_ssl::c_open_ssl_ctx m_ssl_ctx;
 #endif
 };

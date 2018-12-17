@@ -103,16 +103,10 @@
     <ClCompile Include="src\cpp\socket\socket.cpp">
       <Filter>NkSocket</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\socket\streamsocketssl.cpp">
-      <Filter>NkSocket</Filter>
-    </ClCompile>
     <ClCompile Include="src\cpp\socket\wsaevent.cpp">
       <Filter>NkSocket</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\ssl\aes.cpp">
-      <Filter>NkSSL</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cpp\ssl\NKOpenSSLCtx.cpp">
       <Filter>NkSSL</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\ssl\sha.cpp">
@@ -146,6 +140,9 @@
       <Filter>NkWin</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\ssl\sslsocket.cpp">
+      <Filter>NkSSL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\ssl\opensslctx.cpp">
       <Filter>NkSSL</Filter>
     </ClCompile>
   </ItemGroup>
@@ -315,19 +312,10 @@
     <ClInclude Include="src\cpp\socket\socketlistener.h">
       <Filter>NkSocket</Filter>
     </ClInclude>
-    <ClInclude Include="src\cpp\socket\streamsocketssl.h">
-      <Filter>NkSocket</Filter>
-    </ClInclude>
     <ClInclude Include="src\cpp\socket\wsaevent.h">
       <Filter>NkSocket</Filter>
     </ClInclude>
     <ClInclude Include="src\cpp\ssl\aes.h">
-      <Filter>NkSSL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cpp\ssl\NKOpenSSLCtx.h">
-      <Filter>NkSSL</Filter>
-    </ClInclude>
-    <ClInclude Include="src\cpp\ssl\openssl.h">
       <Filter>NkSSL</Filter>
     </ClInclude>
     <ClInclude Include="src\cpp\ssl\sha.h">
@@ -391,6 +379,9 @@
       <Filter>NkWin</Filter>
     </ClInclude>
     <ClInclude Include="src\cpp\ssl\sslsocket.h">
+      <Filter>NkSSL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cpp\ssl\opensslctx.h">
       <Filter>NkSSL</Filter>
     </ClInclude>
   </ItemGroup>

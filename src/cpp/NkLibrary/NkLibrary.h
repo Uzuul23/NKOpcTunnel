@@ -70,7 +70,7 @@
 	#pragma comment(lib, "lib/NkLibrary.lib")
 #endif
 
-#include "ssl/NKOpenSSLCtx.h"
+#include "ssl/opensslctx.h"
 #include "ssl/sslsocket.h"
 #include "ssl/sha.h"
 #include "ssl/aes.h"

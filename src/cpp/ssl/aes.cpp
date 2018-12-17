@@ -3,7 +3,7 @@
 #include "error/sslexception.h"
 #include "error/baseexception.h"
 
-namespace NkSSL
+namespace nk_ssl
 {
 	void CAES256::encrypt(const BYTE plain[], size_t cb_plain, const BYTE key[]
 		, size_t cb_key, BYTE cipher[], size_t cb_cipher, size_t& cb_cipher_used)
