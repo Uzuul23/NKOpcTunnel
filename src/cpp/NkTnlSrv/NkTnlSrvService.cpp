@@ -9,7 +9,7 @@ CNkTnlSrvService::CNkTnlSrvService(LPCWSTR pszServiceName)
 	Trace.Subscribe(this);
 
 	NkSocket::CSocket::initialize();
-	nk_ssl::c_open_ssl_ctx::initialize();
+	NkSSL::CNKOpenSSLCtx::initialize();
 
 	HRESULT hr = ::CoInitializeEx(0, COINIT_MULTITHREADED);
 	NkError::CBaseException::check_result(hr, __FILE__, __LINE__);
@@ -19,7 +19,7 @@ CNkTnlSrvService::~CNkTnlSrvService(void)
 {
 	
 #if defined NK_USE_SSL
-	nk_ssl::c_open_ssl_ctx::cleanup();
+	NkSSL::CNKOpenSSLCtx::cleanup();
 #endif	
 
 	NkSocket::CSocket::cleanup();
@@ -79,7 +79,7 @@ void CNkTnlSrvService::OnStart(DWORD dwArgc, PWSTR *pszArgv)
 //			
 //			m_ssl_ctx.create_TLSv1_2_server();
 //			m_ssl_ctx.certificate_file("C:\\Users\\Paul\\Documents\\Visual Studio 2015\\Projects\\NkOpcTunnel\\BIN\\certs\\server.crt");
-//			m_ssl_ctx.set_default_password("yFsrT41iC2OgajP");
+//			m_ssl_ctx.set_default_passwd("yFsrT41iC2OgajP");
 //			m_ssl_ctx.use_private_key_file("C:\\Users\\Paul\\Documents\\Visual Studio 2015\\Projects\\NkOpcTunnel\\BIN\\certs\\private\\server.key");
 //		}
 //#endif
@@ -127,7 +127,7 @@ void CNkTnlSrvService::on_accept(SOCKET so)
 
 		if (m_use_ssl)
 		{
-			nk_ssl::c_ssl_socket* p_socket = new nk_ssl::c_ssl_socket(so);
+			NkSSL::CSSLSocket* p_socket = new NkSSL::CSSLSocket(so);
 
 			try {
 				p_socket->ssl_accept(m_ssl_ctx);

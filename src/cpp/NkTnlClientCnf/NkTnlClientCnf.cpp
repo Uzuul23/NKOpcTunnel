@@ -50,7 +50,7 @@ BOOL CNkTnlClientCnfApp::InitInstance()
 	::CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	NkSocket::CSocket::initialize();
-	nk_ssl::c_open_ssl_ctx::initialize();
+	NkSSL::CNKOpenSSLCtx::initialize();
 
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size
@@ -93,7 +93,7 @@ int CNkTnlClientCnfApp::ExitInstance()
 	NkTrace::CTrace::Instance().UnSubscribe(this);
 
 	NkSocket::CSocket::cleanup();
-	nk_ssl::c_open_ssl_ctx::cleanup();
+	NkSSL::CNKOpenSSLCtx::cleanup();
 	CoUninitialize();
 
 	return CWinApp::ExitInstance();

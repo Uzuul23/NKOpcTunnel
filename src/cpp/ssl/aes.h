@@ -2,7 +2,7 @@
 #include "types/types.h"
 #include "openssl/aes.h"
 
-namespace nk_ssl
+namespace NkSSL
 {
 	class CAES256
 	{

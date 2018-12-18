@@ -1,9 +1,9 @@
 #pragma once
 #include "com/comnearsrv.h"
 
-namespace nk_ssl
+namespace NkSSL
 {
-	class c_open_ssl_ctx;
+	class CNKOpenSSLCtx;
 }
 
 namespace NkOPC
@@ -18,7 +18,7 @@ namespace NkOPC
 			, NkCom::CModule *pModule = 0, NkCom::CLogonEvent *pLogon = 0);
 
 		static COPCNearSrv* create_new_server_ssl(const char* addr
-			, nk_ssl::c_open_ssl_ctx& ctx, NkCom::CModule *pModule = 0
+			, NkSSL::CNKOpenSSLCtx& ctx, NkCom::CModule *pModule = 0
 			, NkCom::CLogonEvent *pLogon = 0);
 
 		virtual void create_near_proxy(REFIID proxy_iid, REFIID riid, void** ppv, ULONG32 id);

@@ -60,7 +60,7 @@ HRESULT CDllModule::DllGetClassObject(REFCLSID clsid, REFIID riid, void** ppv)
 #if defined NK__
 		if (Entry.RemoteServerUseSSl()) {
 			if (m_ssl_ctx.data() == 0) {
-				nk_ssl::c_open_ssl_ctx::initialize();
+				NkSSL::CNKOpenSSLCtx::initialize();
 				m_ssl_ctx.create_TLSv1_2_client();
 			}
 
@@ -127,7 +127,7 @@ BOOL CDllModule::DllMain(HANDLE hinstDLL, DWORD ul_reason_for_call, LPVOID lpRes
 		}
 		case DLL_PROCESS_DETACH: {
 #if defined NK_USE_SSL
-			nk_ssl::c_open_ssl_ctx::cleanup();
+			NkSSL::CNKOpenSSLCtx::cleanup();
 #endif
 			NkSocket::CSocket::cleanup();
 			NkTrace::CTrace::Instance().UnSubscribe(this);

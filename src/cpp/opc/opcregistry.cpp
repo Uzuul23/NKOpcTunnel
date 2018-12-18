@@ -415,7 +415,7 @@ namespace NkOPC
 		size_t cb_cipher_used = 0;
 		BYTE *pcipher = new BYTE[cb_cipher];
 
-		nk_ssl::CAES256::encrypt(plain, cb_plain, key, sizeof(key), pcipher, cb_cipher
+		NkSSL::CAES256::encrypt(plain, cb_plain, key, sizeof(key), pcipher, cb_cipher
 			, cb_cipher_used);
 
 		m_TmpKey.Close();
@@ -434,7 +434,7 @@ namespace NkOPC
 		BYTE key[32] = { 0 };
 		NkWin::CLocalMachine::local_machine_dependent_key(key);
 
-		nk_ssl::CAES256::decrypt(p, cb_cipher, key, sizeof(key), plain, cb_plain, cb_plain_used);
+		NkSSL::CAES256::decrypt(p, cb_cipher, key, sizeof(key), plain, cb_plain, cb_plain_used);
 	}
 
 	size_t CTunnelRegEntry::RemoteServerPassPlainSize()
