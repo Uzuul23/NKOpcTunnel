@@ -9,8 +9,7 @@
 #include "error/exception.h"
 #include "socket/socket.h"
 #include "ssl/sslsocket.h"
-#include "ssl/NKOpenSSLCtx.h"
-#include "socket/streamsocketssl.h"
+#include "ssl/opensslctx.h"
 
 
 namespace NkOPC
@@ -53,12 +52,12 @@ namespace NkOPC
 	}
 
 	NkOPC::COPCNearSrv* COPCNearSrv::create_new_server_ssl(const char* addr
-		, NkSSL::CNKOpenSSLCtx& ctx, NkCom::CModule *pModule /*= 0*/
+		, NkSSL::COpenSSLCtx& ctx, NkCom::CModule *pModule /*= 0*/
 		, NkCom::CLogonEvent *pLogon/* = 0*/)
 	{
 		NkOPC::COPCNearSrv* pServer = 0;
 		try {
-			NkSSL::CSSLSocket *pSocket = new NkSSL::CSSLSocket;
+			NkSSL::CSocket *pSocket = new NkSSL::CSocket;
 			try {
 				pSocket->socket();
 				pSocket->connect(addr);

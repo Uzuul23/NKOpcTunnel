@@ -19,6 +19,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NKTnlClient", "NKTnlClient.
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NkTnlServerCnf", "NkTnlServerCnf.vcxproj", "{BBBF5ABC-F340-4A6A-BEF8-438885071746}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1F67D54E-713A-4B5C-AC35-3FB67C1F2892} = {1F67D54E-713A-4B5C-AC35-3FB67C1F2892}
+		{50242B74-66E0-4916-884A-36B7DA002C2A} = {50242B74-66E0-4916-884A-36B7DA002C2A}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NkTnlSrv", "NkTnlSrv.vcxproj", "{AAEF4042-1232-4A47-9A32-649615FAD13A}"
 	ProjectSection(ProjectDependencies) = postProject

@@ -1,5 +1,6 @@
 #include "StdAfx.h"
-#include "NKOpenSSLCtx.h"
+
+#include "opensslctx.h"
 #include "openssl/ssl.h"
 #include "openssl/err.h"
 #include "error/baseexception.h"
@@ -9,17 +10,9 @@
 #if defined NK_USE_SSL
 namespace NkSSL
 {
-	class CNKOpenSSLCtx::CImpl
+	class COpenSSLCtx::CImpl
 	{
 	public:
-		CImpl()
-		{
-		}
-		~CImpl()
-		{
-			clear();
-		}
-
 		SSL_CTX* m_pSSL_ctx = 0;
 		byte* m_p_default_passwd_cb_userdata = 0;
 		size_t m_cb_default_passwd_cb_userdata = 0;
@@ -46,18 +39,18 @@ namespace NkSSL
 		static bool m_ssl_initialized;
 	};
 
-	CNKOpenSSLCtx::CNKOpenSSLCtx() : _Impl(new CImpl)
+	COpenSSLCtx::COpenSSLCtx() : _Impl(new CImpl)
 	{
 	}
 
-	CNKOpenSSLCtx::~CNKOpenSSLCtx(void)
+	COpenSSLCtx::~COpenSSLCtx(void)
 	{
 		delete _Impl;
 	}
 
-	bool CNKOpenSSLCtx::CImpl::m_ssl_initialized = false;
+	bool COpenSSLCtx::CImpl::m_ssl_initialized = false;
 
-	void CNKOpenSSLCtx::initialize()
+	void COpenSSLCtx::initialize()
 	{
 		if (!CImpl::m_ssl_initialized) {
 			SSL_load_error_strings();
@@ -67,7 +60,7 @@ namespace NkSSL
 		}
 	}
 
-	void CNKOpenSSLCtx::cleanup()
+	void COpenSSLCtx::cleanup()
 	{
 		if (CImpl::m_ssl_initialized) {
 			ERR_free_strings();
@@ -76,7 +69,7 @@ namespace NkSSL
 		}
 	}
 
-	void CNKOpenSSLCtx::create_TLSv1_2_server()
+	void COpenSSLCtx::create_TLSv1_2_server()
 	{
 		_Impl->clear();
 
@@ -89,7 +82,7 @@ namespace NkSSL
 			, "SSL_CTX_new", __FILE__, __LINE__);
 	}
 
-	void CNKOpenSSLCtx::create_TLSv1_2_client()
+	void COpenSSLCtx::create_TLSv1_2_client()
 	{
 		_Impl->clear();
 
@@ -102,7 +95,7 @@ namespace NkSSL
 			, "SSL_CTX_new", __FILE__, __LINE__);
 	}
 
-	void CNKOpenSSLCtx::certificate_file(const char* psz)
+	void COpenSSLCtx::certificate_file(const char* psz)
 	{
 		NkError::CBaseException::check_pointer(_Impl->m_pSSL_ctx, __FILE__, __LINE__);
 		
@@ -110,7 +103,7 @@ namespace NkSSL
 		NkError::CSSLException::check_result(ret, "SSL_CTX_use_certificate_file", __FILE__, __LINE__);
 	}
 
-	void CNKOpenSSLCtx::load_verify_locations(const char* psz_file, const char* psz_path /*= 0*/)
+	void COpenSSLCtx::load_verify_locations(const char* psz_file, const char* psz_path /*= 0*/)
 	{
 		NkError::CBaseException::check_pointer(_Impl->m_pSSL_ctx, __FILE__, __LINE__);
 
@@ -118,7 +111,7 @@ namespace NkSSL
 		NkError::CSSLException::check_result(ret, "SSL_CTX_load_verify_locations", __FILE__, __LINE__);
 	}
 
-	void CNKOpenSSLCtx::use_private_key_file(const char* psz)
+	void COpenSSLCtx::use_private_key_file(const char* psz)
 	{
 		NkError::CBaseException::check_pointer(_Impl->m_pSSL_ctx, __FILE__, __LINE__);
 
@@ -126,7 +119,7 @@ namespace NkSSL
 		NkError::CSSLException::check_result(ret, "SSL_CTX_use_PrivateKey_file", __FILE__, __LINE__);
 	}
 
-	void CNKOpenSSLCtx::set_default_passwd(const char* psz)
+	void COpenSSLCtx::set_default_passwd(const char* psz)
 	{
 		_Impl->clear_pass();
 		NkError::CBaseException::check_pointer(_Impl->m_pSSL_ctx, __FILE__, __LINE__);
@@ -150,13 +143,13 @@ namespace NkSSL
 		}
 	}
 
-	void CNKOpenSSLCtx::set_verify(int mode /*= SSL_VERIFY_PEER|SSL_VERIFY_FAIL_IF_NO_PEER_CERT*/)
+	void COpenSSLCtx::set_verify(int mode /*= SSL_VERIFY_PEER|SSL_VERIFY_FAIL_IF_NO_PEER_CERT*/)
 	{
 		NkError::CBaseException::check_pointer(_Impl->m_pSSL_ctx, __FILE__, __LINE__);
 		SSL_CTX_set_verify(_Impl->m_pSSL_ctx, mode, 0);
 	}
 
-	SSL_CTX* CNKOpenSSLCtx::data()
+	SSL_CTX* COpenSSLCtx::data()
 	{
 		return _Impl->m_pSSL_ctx;
 	}

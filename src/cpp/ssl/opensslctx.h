@@ -9,13 +9,13 @@
 
 namespace NkSSL
 {
-	class MYDLLEXPORT CNKOpenSSLCtx
+	class MYDLLEXPORT COpenSSLCtx
 	{
 	public:
-		CNKOpenSSLCtx();
-		CNKOpenSSLCtx(const CNKOpenSSLCtx&) = delete; 
-		CNKOpenSSLCtx & operator =(const CNKOpenSSLCtx&) = delete;
-		virtual ~CNKOpenSSLCtx(void);
+		COpenSSLCtx();
+		COpenSSLCtx(const COpenSSLCtx&) = delete; 
+		COpenSSLCtx & operator =(const COpenSSLCtx&) = delete;
+		virtual ~COpenSSLCtx(void);
 
 		static void initialize();
 		static void cleanup();

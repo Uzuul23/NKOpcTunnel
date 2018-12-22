@@ -9,7 +9,7 @@ CNkTnlSrvService::CNkTnlSrvService(LPCWSTR pszServiceName)
 	Trace.Subscribe(this);
 
 	NkSocket::CSocket::initialize();
-	NkSSL::CNKOpenSSLCtx::initialize();
+	NkSSL::COpenSSLCtx::initialize();
 
 	HRESULT hr = ::CoInitializeEx(0, COINIT_MULTITHREADED);
 	NkError::CBaseException::check_result(hr, __FILE__, __LINE__);
@@ -19,7 +19,7 @@ CNkTnlSrvService::~CNkTnlSrvService(void)
 {
 	
 #if defined NK_USE_SSL
-	NkSSL::CNKOpenSSLCtx::cleanup();
+	NkSSL::COpenSSLCtx::cleanup();
 #endif	
 
 	NkSocket::CSocket::cleanup();
@@ -127,7 +127,7 @@ void CNkTnlSrvService::on_accept(SOCKET so)
 
 		if (m_use_ssl)
 		{
-			NkSSL::CSSLSocket* p_socket = new NkSSL::CSSLSocket(so);
+			NkSSL::CSocket* p_socket = new NkSSL::CSocket(so);
 
 			try {
 				p_socket->ssl_accept(m_ssl_ctx);

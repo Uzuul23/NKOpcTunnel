@@ -30,5 +30,5 @@ private:
 	bool m_shutdown;
 	bool m_use_ssl = true;
 	ULONG32 m_next_server_id = 0;
-	NkSSL::CNKOpenSSLCtx m_ssl_ctx;
+	NkSSL::COpenSSLCtx m_ssl_ctx;
 };

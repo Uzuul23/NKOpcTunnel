@@ -168,13 +168,11 @@
     <ClInclude Include="src\cpp\opc\streamcomptr.h" />
     <ClInclude Include="src\cpp\service\ServiceBase.h" />
     <ClInclude Include="src\cpp\service\ServiceManager.h" />
-    <ClInclude Include="src\cpp\socket\interfaces.h" />
     <ClInclude Include="src\cpp\socket\socket.h" />
     <ClInclude Include="src\cpp\socket\socketlistener.h" />
-    <ClInclude Include="src\cpp\socket\streamsocketssl.h" />
     <ClInclude Include="src\cpp\socket\wsaevent.h" />
     <ClInclude Include="src\cpp\ssl\aes.h" />
-    <ClInclude Include="src\cpp\ssl\NKOpenSSLCtx.h" />
+    <ClInclude Include="src\cpp\ssl\opensslctx.h" />
     <ClInclude Include="src\cpp\ssl\openssl.h" />
     <ClInclude Include="src\cpp\ssl\sha.h" />
     <ClInclude Include="src\cpp\ssl\sslsocket.h" />
@@ -236,10 +234,9 @@
     <ClCompile Include="src\cpp\service\ServiceBase.cpp" />
     <ClCompile Include="src\cpp\service\ServiceManager.cpp" />
     <ClCompile Include="src\cpp\socket\socket.cpp" />
-    <ClCompile Include="src\cpp\socket\streamsocketssl.cpp" />
     <ClCompile Include="src\cpp\socket\wsaevent.cpp" />
     <ClCompile Include="src\cpp\ssl\aes.cpp" />
-    <ClCompile Include="src\cpp\ssl\NKOpenSSLCtx.cpp" />
+    <ClCompile Include="src\cpp\ssl\opensslctx.cpp" />
     <ClCompile Include="src\cpp\ssl\sha.cpp" />
     <ClCompile Include="src\cpp\ssl\sslsocket.cpp" />
     <ClCompile Include="src\cpp\stream\mtiodevice.cpp" />

@@ -3,7 +3,7 @@
 
 namespace NkSSL
 {
-	class CNKOpenSSLCtx;
+	class COpenSSLCtx;
 }
 
 namespace NkOPC
@@ -18,7 +18,7 @@ namespace NkOPC
 			, NkCom::CModule *pModule = 0, NkCom::CLogonEvent *pLogon = 0);
 
 		static COPCNearSrv* create_new_server_ssl(const char* addr
-			, NkSSL::CNKOpenSSLCtx& ctx, NkCom::CModule *pModule = 0
+			, NkSSL::COpenSSLCtx& ctx, NkCom::CModule *pModule = 0
 			, NkCom::CLogonEvent *pLogon = 0);
 
 		virtual void create_near_proxy(REFIID proxy_iid, REFIID riid, void** ppv, ULONG32 id);
