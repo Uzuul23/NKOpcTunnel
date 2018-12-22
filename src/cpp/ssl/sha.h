@@ -2,7 +2,7 @@
 #include "types/types.h"
 #include "openssl/sha.h"
 
-namespace NkSSL
+namespace nk_ssl
 {
 	class CSHA
 	{

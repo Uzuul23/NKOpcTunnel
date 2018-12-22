@@ -2,7 +2,7 @@
 #include "sha.h"
 #include "error/sslexception.h"
 
-namespace NkSSL
+namespace nk_ssl
 {
 	void CSHA::SHA256(const BYTE in[], size_t cb, BYTE digest[SHA256_DIGEST_LENGTH])
 	{
