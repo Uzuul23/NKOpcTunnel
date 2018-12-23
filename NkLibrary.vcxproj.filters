@@ -315,9 +315,6 @@
     <ClInclude Include="src\cpp\ssl\aes.h">
       <Filter>NkSSL</Filter>
     </ClInclude>
-    <ClInclude Include="src\cpp\ssl\openssl.h">
-      <Filter>NkSSL</Filter>
-    </ClInclude>
     <ClInclude Include="src\cpp\ssl\sha.h">
       <Filter>NkSSL</Filter>
     </ClInclude>
@@ -425,5 +422,8 @@
     <Filter Include="NkSSL">
       <UniqueIdentifier>{af62f0a7-ba43-40a9-a2d4-5737dcb2f579}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NkOpcTunnel.licenseheader" />
   </ItemGroup>
 </Project>

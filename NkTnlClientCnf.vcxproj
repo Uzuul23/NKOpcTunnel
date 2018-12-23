@@ -40,6 +40,7 @@
     <Image Include="src\cpp\NkTnlClientCnf\res\servertree_hc.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="NkOpcTunnel.licenseheader" />
     <None Include="src\cpp\NkTnlClientCnf\res\NkTnlClientCnf.rc2" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

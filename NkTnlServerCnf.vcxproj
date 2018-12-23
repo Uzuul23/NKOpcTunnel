@@ -85,6 +85,7 @@
     <ResourceCompile Include="src\cpp\NkTnlServerCnf\NkTnlServerCnf.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="NkOpcTunnel.licenseheader" />
     <None Include="src\cpp\NkTnlServerCnf\res\NkTnlServerCnf.rc2" />
   </ItemGroup>
   <ItemGroup>

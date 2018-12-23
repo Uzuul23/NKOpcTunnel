@@ -1,17 +1,41 @@
+/*	This file is part of NKOpcTunnel.
+*
+*	Copyright (c) Henryk Anschuetz 
+*	Berlin, Germany
+*
+*	mailto:uzuul23@online.de
+*
+*	NKOpcTunnel is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   NKOpcTunnel is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with NKOpcTunnel.  If not, see <http://www.gnu.org/licenses/>.
+*
+*/
+
 #pragma once
 
 #ifndef MYDLLEXPORT
 #define MYDLLEXPORT
 #endif
 
+#include "stream/interfaces.h"
+
 #include <openssl/bio.h>
 #include <WinSock2.h>
-#include "stream/interfaces.h"
 
 namespace NkSSL {
 	class COpenSSLCtx;
 
-	class MYDLLEXPORT CSocket : public NkStream::CStreamIODevice {
+	class MYDLLEXPORT CSocket : public NkStream::CStreamIODevice
+	{
 	public:
 		CSocket() = default;
 		CSocket(SOCKET so) noexcept;

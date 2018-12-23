@@ -153,6 +153,9 @@
   <ItemGroup>
     <Image Include="icon\NkOpcTunnel.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="NkOpcTunnel.licenseheader" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

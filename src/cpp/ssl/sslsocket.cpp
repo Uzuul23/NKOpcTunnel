@@ -1,6 +1,29 @@
+/*	This file is part of NKOpcTunnel.
+*
+*	Copyright (c) Henryk Anschuetz 
+*	Berlin, Germany
+*
+*	mailto:uzuul23@online.de
+*
+*	NKOpcTunnel is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   NKOpcTunnel is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with NKOpcTunnel.  If not, see <http://www.gnu.org/licenses/>.
+*
+*/
+
 #include "stdafx.h"
 
 #include "ssl/sslsocket.h"
+
 #include "ssl/opensslctx.h"
 #include "error/baseexception.h"
 #include "error/socketexception.h"
@@ -12,27 +35,31 @@
 
 namespace NkSSL {
 
-	CSocket::CSocket(SOCKET so) noexcept {
+	CSocket::CSocket(SOCKET so) noexcept
+	{
 		m_socket = so;
 	}
 
-	CSocket::~CSocket() noexcept {
+	CSocket::~CSocket() noexcept
+	{
 		close();
 	}
 
-	void CSocket::socket() {
+	void CSocket::socket()
+	{
 		close();
 		m_socket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 		NkError::CSocketException::check(m_socket, "socket", __FILE__, __LINE__);
 	}
 
-	void CSocket::shutdown(int how /*= SD_SEND*/) const {
+	void CSocket::shutdown(int how /*= SD_SEND*/) const
+	{
 		const int ret = ::shutdown(m_socket, how);
 		NkError::CSocketException::check(ret, "shutdown", __FILE__, __LINE__);
 	}
 
-	void CSocket::connect(const char* address) const {
-
+	void CSocket::connect(const char* address) const
+	{
 		std::string str(address);
 		const auto found = str.find('/');
 		if (found == std::string::npos) {
@@ -48,7 +75,8 @@ namespace NkSSL {
 		NkError::CSocketException::check(ret, "connect", __FILE__, __LINE__);
 	}
 
-	void CSocket::ssl_accept(COpenSSLCtx& ssl_ctx) {
+	void CSocket::ssl_accept(COpenSSLCtx& ssl_ctx)
+	{
 		m_pSSL = SSL_new(ssl_ctx.data());
 		NkError::CSSLException::check_create(m_pSSL, "SSL_new", __FILE__, __LINE__);
 
@@ -61,7 +89,8 @@ namespace NkSSL {
 		NkError::CSSLException::check_result(ret, "SSL_accept", __FILE__, __LINE__);
 	}
 
-	void CSocket::ssl_connect(COpenSSLCtx& ssl_ctx) {
+	void CSocket::ssl_connect(COpenSSLCtx& ssl_ctx)
+	{
 		m_pSSL = SSL_new(ssl_ctx.data());
 		NkError::CSSLException::check_create(m_pSSL, "SSL_new", __FILE__, __LINE__);
 
@@ -74,8 +103,8 @@ namespace NkSSL {
 		NkError::CSSLException::check_result(ret, "SSL_connect", __FILE__, __LINE__);
 	}
 
-	void CSocket::get_peer_address(std::string& address) const {
-
+	void CSocket::get_peer_address(std::string& address) const
+	{
 		sockaddr_in addr_in;
 		int cb = sizeof(sockaddr_in);
 		int ret = getpeername(m_socket, (SOCKADDR*)&address, &cb);
@@ -88,7 +117,8 @@ namespace NkSSL {
 		address += std::to_string(ntohs(addr_in.sin_port));
 	}
 
-	size_t CSocket::read(void* p, size_t cb, ULONG32 id /*= 0*/) {
+	size_t CSocket::read(void* p, size_t cb, ULONG32 id /*= 0*/)
+	{
 		_ASSERT(p != nullptr);
 		_ASSERT(cb > 0);
 
@@ -107,7 +137,8 @@ namespace NkSSL {
 		return static_cast<size_t>(ret);
 	}
 
-	size_t CSocket::write(const void* p, size_t cb, ULONG32 id /*= 0*/) {
+	size_t CSocket::write(const void* p, size_t cb, ULONG32 id /*= 0*/)
+	{
 		_ASSERT(p != nullptr);
 		_ASSERT(cb > 0);
 
@@ -127,7 +158,8 @@ namespace NkSSL {
 		return static_cast<size_t>(ret);
 	}
 
-	void CSocket::close(ULONG32 id /*= 0*/) noexcept {
+	void CSocket::close(ULONG32 id /*= 0*/) noexcept
+	{
 		if (m_socket != INVALID_SOCKET) {
 			int ret = closesocket(m_socket);
 			NkError::CSocketException::check(ret, "closesocket", __FILE__, __LINE__);
@@ -135,7 +167,8 @@ namespace NkSSL {
 		}
 	}
 
-	bool CSocket::is_closed() const noexcept {
+	bool CSocket::is_closed() const noexcept
+	{
 		return m_socket == INVALID_SOCKET;
 	}
 

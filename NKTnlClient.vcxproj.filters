@@ -51,5 +51,6 @@
     <None Include="src\cpp\NkTnlClient\NkTnlClient.def">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="NkOpcTunnel.licenseheader" />
   </ItemGroup>
 </Project>

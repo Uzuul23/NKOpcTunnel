@@ -80,5 +80,6 @@
     <None Include="src\cpp\NkTnlClientCnf\res\NkTnlClientCnf.rc2">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="NkOpcTunnel.licenseheader" />
   </ItemGroup>
 </Project>

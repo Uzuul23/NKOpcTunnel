@@ -173,7 +173,6 @@
     <ClInclude Include="src\cpp\socket\wsaevent.h" />
     <ClInclude Include="src\cpp\ssl\aes.h" />
     <ClInclude Include="src\cpp\ssl\opensslctx.h" />
-    <ClInclude Include="src\cpp\ssl\openssl.h" />
     <ClInclude Include="src\cpp\ssl\sha.h" />
     <ClInclude Include="src\cpp\ssl\sslsocket.h" />
     <ClInclude Include="src\cpp\stream\interfaces.h" />
@@ -248,6 +247,9 @@
     <ClCompile Include="src\cpp\util\passvault.cpp" />
     <ClCompile Include="src\cpp\windows\localmachine.cpp" />
     <ClCompile Include="src\cpp\windows\registry.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NkOpcTunnel.licenseheader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

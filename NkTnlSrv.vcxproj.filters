@@ -49,4 +49,7 @@
       <Filter>Ressourcendateien</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="NkOpcTunnel.licenseheader" />
+  </ItemGroup>
 </Project>

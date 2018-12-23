@@ -23,6 +23,7 @@
     <None Include="src\cpp\NkTnlServerCnf\res\NkTnlServerCnf.rc2">
       <Filter>Ressourcendateien</Filter>
     </None>
+    <None Include="NkOpcTunnel.licenseheader" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\cpp\NkTnlServerCnf\res\NkTnlServerCnf.ico">
