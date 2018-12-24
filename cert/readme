@@ -1,0 +1,6 @@
+here is the path for the SSL certificates for NkOPCTunnel
+- ca.crt //certificate authority (pem format)
+- server.crt //server certificate (pem format) signing from ca.crt root
+- server.key //key file for the server certificate
+- client.crt //client certificate (pem format) signing from ca.crt root
+- client.key //key file for the client certificate

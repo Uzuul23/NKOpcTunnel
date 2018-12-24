@@ -89,6 +89,9 @@ namespace NkWin
 		void DeleteKeyValue(LPCWSTR pszValueName //the name of the value to delete
 			);
 
+		bool DeleteKeyValueIf(LPCWSTR pszValueName //the name of the value to delete
+		) noexcept;
+
 		void QueryValue(NkType::CString& strValue, LPCWSTR pszValueName = 0);
 		LPCSTR QueryValueAnsiString(LPCWSTR pszValueName = 0);
 		LPCWSTR QueryValueString(LPCWSTR pszValueName = 0);
@@ -99,6 +102,7 @@ namespace NkWin
 
 		void SetValue(DWORD NewValue, LPCWSTR pszValueName = 0);
 		void SetValue(LPCWSTR pszNewValue, LPCWSTR pszValueName = 0);
+		void SetValue(LPCSTR pszNewValue, LPCWSTR pszValueName);
 		void SetValue(CLSID NewValue, LPCWSTR pszValueName = 0);
 		void SetValueBin(const BYTE* pData, size_t cbData, LPCWSTR pszValueName = 0
 			, DWORD dwType = REG_BINARY);

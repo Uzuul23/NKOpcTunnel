@@ -90,8 +90,26 @@ BOOL CNkTnlBrowseOPCServerDlg::OnInitDialog()
 		if (m_bUseSSL) {
 			NkSSL::COpenSSLCtx ctx;
 			ctx.create_TLSv1_2_client();
-			ctx.load_verify_locations("C:\\Users\\Uzuul\\Documents\\Visual Studio 2017\\Projects\\NkOpcTunnel\\cert\\ca\\cacert.pem");
-			ctx.set_verify();
+
+			NkWin::CRegistry key(NKOPCTnl::RegKeySettings, HKEY_LOCAL_MACHINE, KEY_READ);
+			
+			if (m_bVerifyServer) {
+				
+				CStringA path(key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath));
+				path += L"ca.crt";
+				ctx.load_verify_locations(path);
+				ctx.set_verify();	
+			}
+			if (m_bClientCertificate) {
+				CStringA path(key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath));
+				path += L"client.crt";
+				ctx.certificate_file(path);
+
+				path = key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath);
+				path += L"client.key";
+				ctx.use_private_key_file(path);
+			}
+			
 			spSrv = NkOPC::COPCNearSrv::create_new_server_ssl(m_strServerAddr, ctx);
 		}
 		else {

@@ -20,16 +20,9 @@
 *
 */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "dllmodule.h"
 
-CDllModule::CDllModule(void)
-{
-}
-
-CDllModule::~CDllModule(void)
-{
-}
 
 HRESULT CDllModule::DllRegisterServer()
 {
@@ -42,7 +35,21 @@ HRESULT CDllModule::DllRegisterServer()
 		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_CREATE_SUB_KEY);
 		NkWin::CRegistry keySettings;
 		key.CreateKey(NKOPCTnl::RegKeySettings, &keySettings, KEY_WRITE);
+
 		keySettings.SetValue(szFileName, NKOPCTnl::RegValueClientInstallPath);
+
+		std::wstring str(szFileName);
+		auto find = str.rfind('\\');
+		if (find != std::string::npos) {
+			str = str.substr(0, find);
+		}
+		find = str.rfind('\\');
+		if (find != std::string::npos) {
+			str = str.substr(0, find + 1);
+		}
+		str += L"cert\\";
+		key.CreateKey(NKOPCTnl::RegKeySettings, &keySettings, KEY_WRITE);
+		keySettings.SetValue(str.c_str(), NKOPCTnl::RegValueClientCertPath);
 	}
 	catch (NkError::CException& e)
 	{
@@ -59,7 +66,8 @@ HRESULT CDllModule::DllUnregisterServer()
 		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_WRITE);
 		NkWin::CRegistry keySettings;
 		keySettings.Open(NKOPCTnl::RegKeySettings, key);
-		keySettings.DeleteKeyValue(NKOPCTnl::RegValueClientInstallPath);
+		keySettings.DeleteKeyValueIf(NKOPCTnl::RegValueClientInstallPath);
+		keySettings.DeleteKeyValueIf(NKOPCTnl::RegValueClientCertPath);
 	}
 	catch (NkError::CException& e)
 	{

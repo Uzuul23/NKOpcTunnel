@@ -99,6 +99,11 @@ namespace NkOPC
 		static void ServerTraceLevel(int val);
 		static void ServerUseSSL(BOOL value);
 		static BOOL ServerUseSSL();
+		static void ServerVerifyClient(BOOL value);
+		static BOOL ServerVerifyClient();
+
+		static void SetServerCertPath(const char* value);
+		static void GetServerCertPath(std::string& value);
 
 
 		//client

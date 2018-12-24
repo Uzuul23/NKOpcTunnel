@@ -24,19 +24,20 @@
 
 #include "targetver.h"
 
-#include <stdio.h>
+#include <cstdio>
+
 #include <tchar.h>
 
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <Shellapi.h>
+#include <Windows.h>
+#include <shellapi.h>
 
 #define _MIDL_USE_GUIDDEF_
 
 #define NK_USE_SSL
 
 #include "NkLibrary/NkLibrary.h"
-#include "NkOpcTunnel/defines.h"
+#include "NkOPCTunnel/defines.h"
 
 #include <string>
 #include <list>

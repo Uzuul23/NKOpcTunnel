@@ -27,8 +27,8 @@ class CDllModule : public NkCom::CModule
 	, public NkTrace::CTraceEvent
 {
 public:
-	CDllModule(void);
-	virtual ~CDllModule(void);
+	CDllModule(void) = default;
+	virtual ~CDllModule(void) = default;
 
 	HRESULT DllRegisterServer();
 	HRESULT DllUnregisterServer();

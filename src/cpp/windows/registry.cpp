@@ -181,6 +181,12 @@ namespace NkWin
 		NkError::CWinApiException::check_error(lRet, "RegDeleteKeyValueW", __FILE__, __LINE__);
 	}
 
+	bool CRegistry::DeleteKeyValueIf(LPCWSTR pszValueName) noexcept
+	{
+		const LONG lRet = ::RegDeleteKeyValueW(m_hKey, 0, pszValueName);
+		return lRet != ERROR_SUCCESS;
+	}
+
 	void CRegistry::QueryValue(NkType::CString& strValue, LPCWSTR pszValueName /*= 0*/)
 	{
 		size_t cb = 0;
@@ -309,6 +315,15 @@ namespace NkWin
 		HRESULT hr = StringCbLengthW(pszNewValue, STRSAFE_MAX_CCH, &cb);
 		NkError::CWinApiException::check(hr, "StringCchLengthW", __FILE__, __LINE__);
 		SetValueBin(reinterpret_cast<const BYTE*>(pszNewValue), cb, pszValueName, REG_SZ);
+	}
+
+	void CRegistry::SetValue(LPCSTR pszNewValue, LPCWSTR pszValueName /*= 0*/)
+	{
+		size_t cb = 0;
+
+		//HRESULT hr = StringCbLengthW(pszNewValue, STRSAFE_MAX_CCH, &cb);
+		//NkError::CWinApiException::check(hr, "StringCchLengthW", __FILE__, __LINE__);
+		//SetValueBin(reinterpret_cast<const BYTE*>(pszNewValue), cb, pszValueName, REG_SZ);
 	}
 
 	void CRegistry::SetValueBin(const BYTE* pData, size_t cbData, LPCWSTR pszValueName /*= 0 */, DWORD dwType /*= REG_BINARY*/)

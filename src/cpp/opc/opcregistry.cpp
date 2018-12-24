@@ -611,6 +611,34 @@ namespace NkOPC
 		return NkType::to_BOOL(key.QueryValueDWORD(NKOPCTnl::DefaultServerUseSSL, NKOPCTnl::RegValueServerUseSSL));
 	}
 
+	void CTunnelRegEntry::ServerVerifyClient(BOOL value)
+	{
+		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_READ);
+		NkWin::CRegistry keySettings;
+		keySettings.Open(NKOPCTnl::RegKeySettings, key, KEY_WRITE);
+		keySettings.SetValue(static_cast<DWORD>(value), NKOPCTnl::RegValueServerVerifyClient);
+	}
+
+	BOOL CTunnelRegEntry::ServerVerifyClient()
+	{
+		NkWin::CRegistry key(NKOPCTnl::RegKeySettings, HKEY_LOCAL_MACHINE, KEY_READ);
+		return NkType::to_BOOL(key.QueryValueDWORD(NKOPCTnl::DefaultServerVerifyClient, NKOPCTnl::RegValueServerVerifyClient));
+	}
+
+	void CTunnelRegEntry::SetServerCertPath(const char* value)
+	{
+		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_READ);
+		NkWin::CRegistry keySettings;
+		keySettings.Open(NKOPCTnl::RegKeySettings, key, KEY_WRITE);
+		keySettings.SetValue(value, NKOPCTnl::RegValueServerCertPath);
+	}
+
+	void CTunnelRegEntry::GetServerCertPath(std::string& value)
+	{
+		NkWin::CRegistry key(NKOPCTnl::RegKeySettings, HKEY_LOCAL_MACHINE, KEY_READ);
+		value = key.QueryValueAnsiString(NKOPCTnl::RegValueServerCertPath);
+	}
+
 	int CTunnelRegEntry::ClientTraceLevel()
 	{
 		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_READ);

@@ -7,7 +7,7 @@ namespace NKOPCTnl
 	const DWORD DefaultServerIP = 0;
 
 	static const wchar_t InprocServer32FileName[] = L"NKTnlClient.dll";
-	static const wchar_t RegKeySettings[] = L"SOFTWARE\\WinPeSim\\NKOPCTunnel\\Settings\\";
+	static const wchar_t RegKeySettings[] = L"SOFTWARE\\Uzuul23\\NKOPCTunnel\\Settings\\";
 	static const wchar_t RegValueClientInstallPath[] = L"ClientDllPath";
 	static const wchar_t RegValueServerInstallPath[] = L"ServerPath";
 	static const wchar_t RegValueThreadingModel[] = L"Free";
@@ -18,8 +18,10 @@ namespace NKOPCTnl
 	static const wchar_t RegValueClientTraceLevel[] = L"ClientTraceLevel";
 	static const wchar_t RegValueClientPass[] = L"Pass";
 	static const wchar_t RegValueServerUseSSL[] = L"UseSSL";
-	//static const wchar_t RegValueServerCertPath[] = L"ServerCertPath";
-
+	static const wchar_t RegValueServerVerifyClient[] = L"ServerVerifyClient";
+	static const wchar_t RegValueClientVerifyServer[] = L"ClientVerifyServer";
+	static const wchar_t RegValueServerCertPath[] = L"ServerCertPath";
+	static const wchar_t RegValueClientCertPath[] = L"ClientCertPath";
 
 	//logs
 	static const wchar_t LogPath[] = L"NkOPCTunnel"; //CSIDL_COMMON_APPDATA
@@ -29,6 +31,8 @@ namespace NKOPCTnl
 	//defaults
 	static const int DefaultTraceLevel = 1;
 	static const int DefaultServerUseSSL = 1;
+	static const int DefaultServerVerifyClient = 1;
+	static const int DefaultClientVerifyServer = 1;
 
 	
 	//service

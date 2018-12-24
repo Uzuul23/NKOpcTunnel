@@ -41,5 +41,5 @@
 
 
 #ifndef _WIN32_WINNT            
-#define _WIN32_WINNT _WIN32_WINNT_WIN6
+#define _WIN32_WINNT _WIN32_WINNT_WIN7
 #endif

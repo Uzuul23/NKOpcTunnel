@@ -60,5 +60,7 @@ private:
 public:
 	virtual BOOL OnInitDialog();
 	BOOL m_bUseSSL;
+	BOOL m_bVerifyServer;
+	BOOL m_bClientCertificate;
 	afx_msg void OnBnClickedCheckUseSsl();
 };

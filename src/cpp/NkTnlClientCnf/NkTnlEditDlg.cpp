@@ -40,6 +40,8 @@ CNkTnlEditDlg::CNkTnlEditDlg(CWnd* pParent /*=NULL*/)
 	, m_bRemoteServerDA2(FALSE)
 	, m_bRemoteServerDA3(FALSE)
 	, m_bUseSSL(TRUE)
+	, m_bVerifyServer(TRUE)
+	, m_bClientCertificate(TRUE)
 {
 }
 
@@ -109,6 +111,8 @@ void CNkTnlEditDlg::OnBnClickedButtonSelectOpcServer()
 		, m_dwRemoteServerPort, dlg.m_strServerAddr);
 
 	dlg.m_bUseSSL = m_bUseSSL;
+	dlg.m_bVerifyServer = m_bVerifyServer;
+	dlg.m_bClientCertificate = m_bClientCertificate;
 
 	if (dlg.DoModal() == IDOK) {
 		CNkTnlBrowseOPCServerDlg::CServerInfo* pInfo = dlg.GetSelServerInfo();

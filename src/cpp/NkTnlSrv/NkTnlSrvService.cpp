@@ -40,10 +40,7 @@ CNkTnlSrvService::CNkTnlSrvService(LPCWSTR pszServiceName)
 
 CNkTnlSrvService::~CNkTnlSrvService(void)
 {
-#if defined NK_USE_SSL
 	NkSSL::COpenSSLCtx::cleanup();
-#endif
-
 	NkSocket::CSocket::cleanup();
 
 	delete m_pLogFile;
@@ -65,7 +62,6 @@ void CNkTnlSrvService::OnStart(DWORD dwArgc, PWSTR* pszArgv)
 	NkThreading::CLockGuard lock(m_lock);
 
 	m_shutdown = false;
-
 	m_use_ssl = NkType::to_bool(NkOPC::CTunnelRegEntry::ServerUseSSL());
 
 	NkTrace::CTrace& Trace = NkTrace::CTrace::Instance();
@@ -90,28 +86,29 @@ void CNkTnlSrvService::OnStart(DWORD dwArgc, PWSTR* pszArgv)
 	try {
 
 		if (m_use_ssl) {
-			//TODO: certificate path
 			m_ssl_ctx.create_TLSv1_2_server();
-			m_ssl_ctx.certificate_file(
-				"C:\\Users\\Uzuul\\Documents\\Visual Studio 2017\\Projects\\NkOpcTunnel\\cert\\server\\servercert.pem");
-			m_ssl_ctx.use_private_key_file(
-				"C:\\Users\\Uzuul\\Documents\\Visual Studio 2017\\Projects\\NkOpcTunnel\\cert\\server\\private\\serverkey.pem");
+
+			std::string path;
+			NkOPC::CTunnelRegEntry::GetServerCertPath(path);
+			path += "server.crt";
+			m_ssl_ctx.certificate_file(path.c_str());
+
+			NkOPC::CTunnelRegEntry::GetServerCertPath(path);
+			path += "server.key";
+			m_ssl_ctx.use_private_key_file(path.c_str());
+
+			if (NkOPC::CTunnelRegEntry::ServerVerifyClient()) {
+				NkOPC::CTunnelRegEntry::GetServerCertPath(path);
+				path += "ca.crt";
+				m_ssl_ctx.load_verify_locations(path.c_str());
+				m_ssl_ctx.set_verify();
+			}
 		}
 
-		//#if defined NK_USE_SSL
-		//		if (m_ssl_ctx.data() == 0) {
-		//			
-		//			m_ssl_ctx.create_TLSv1_2_server();
-		//			m_ssl_ctx.certificate_file("C:\\Users\\Paul\\Documents\\Visual Studio 2015\\Projects\\NkOpcTunnel\\BIN\\certs\\server.crt");
-		//			m_ssl_ctx.set_default_passwd("yFsrT41iC2OgajP");
-		//			m_ssl_ctx.use_private_key_file("C:\\Users\\Paul\\Documents\\Visual Studio 2015\\Projects\\NkOpcTunnel\\BIN\\certs\\private\\server.key");
-		//		}
-		//#endif
+		std::string local_address("0.0.0.0/");
+		local_address += std::to_string(NkOPC::CTunnelRegEntry::ServerPort());
 
-		std::string local_addres("0.0.0.0/");
-		local_addres += std::to_string(NkOPC::CTunnelRegEntry::ServerPort());
-
-		m_Listener.listen(&CNkTnlSrvService::on_accept, this, local_addres.c_str());
+		m_Listener.listen(&CNkTnlSrvService::on_accept, this, local_address.c_str());
 	}
 	catch (NkError::CException& e) {
 		e.report();
