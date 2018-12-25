@@ -258,6 +258,32 @@ namespace NkOPC
 		m_TmpKey.SetValue(static_cast<DWORD>(val), L"UseSSL");
 	}
 
+	void CTunnelRegEntry::RemoteClientVerifyServer(BOOL value)
+	{
+		m_TmpKey.Close();
+		m_KeyClassesCLSIDClass.CreateKey(L"RemoteServer", &m_TmpKey, KEY_WRITE);
+		m_TmpKey.SetValue(static_cast<DWORD>(value), L"VerifyServer");
+	}
+
+	BOOL CTunnelRegEntry::RemoteClientVerifyServer()
+	{
+		m_TmpKey.Open(L"RemoteServer", m_KeyClassesCLSIDClass, KEY_READ);
+		return NkType::to_BOOL(m_TmpKey.QueryValueDWORD(L"VerifyServer"));
+	}
+
+	void CTunnelRegEntry::RemoteClientUseCertificate(BOOL value)
+	{
+		m_TmpKey.Close();
+		m_KeyClassesCLSIDClass.CreateKey(L"RemoteServer", &m_TmpKey, KEY_WRITE);
+		m_TmpKey.SetValue(static_cast<DWORD>(value), L"ClientUseCert");
+	}
+
+	BOOL CTunnelRegEntry::RemoteClientUseCertificate()
+	{
+		m_TmpKey.Open(L"RemoteServer", m_KeyClassesCLSIDClass, KEY_READ);
+		return NkType::to_BOOL(m_TmpKey.QueryValueDWORD(L"ClientUseCert"));
+	}
+
 	void CTunnelRegEntry::ClsContext(DWORD Value)
 	{
 		m_TmpKey.Close();
@@ -562,6 +588,20 @@ namespace NkOPC
 		keySettings.SetValue(value, NKOPCTnl::RegValueServerIPAddress);
 	}
 
+	void CTunnelRegEntry::ServerUseSSL(BOOL value)
+	{
+		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_READ);
+		NkWin::CRegistry keySettings;
+		keySettings.Open(NKOPCTnl::RegKeySettings, key, KEY_WRITE);
+		keySettings.SetValue(static_cast<DWORD>(value), NKOPCTnl::RegValueServerUseSSL);
+	}
+
+	BOOL CTunnelRegEntry::ServerUseSSL()
+	{
+		NkWin::CRegistry key(NKOPCTnl::RegKeySettings, HKEY_LOCAL_MACHINE, KEY_READ);
+		return NkType::to_BOOL(key.QueryValueDWORD(NKOPCTnl::DefaultServerUseSSL, NKOPCTnl::RegValueServerUseSSL));
+	}
+
 	void CTunnelRegEntry::GetPassHash(BYTE digest[], size_t cb)
 	{
 		NkWin::CRegistry key(NKOPCTnl::RegKeySettings, HKEY_LOCAL_MACHINE, KEY_READ);
@@ -595,20 +635,6 @@ namespace NkOPC
 		NkWin::CRegistry keySettings;
 		keySettings.Open(NKOPCTnl::RegKeySettings, key, KEY_WRITE);
 		keySettings.SetValue(static_cast<DWORD>(val), NKOPCTnl::RegValueServerTraceLevel);
-	}
-
-	void CTunnelRegEntry::ServerUseSSL(BOOL value)
-	{
-		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_READ);
-		NkWin::CRegistry keySettings;
-		keySettings.Open(NKOPCTnl::RegKeySettings, key, KEY_WRITE);
-		keySettings.SetValue(static_cast<DWORD>(value), NKOPCTnl::RegValueServerUseSSL);
-	}
-
-	BOOL CTunnelRegEntry::ServerUseSSL()
-	{
-		NkWin::CRegistry key(NKOPCTnl::RegKeySettings, HKEY_LOCAL_MACHINE, KEY_READ);
-		return NkType::to_BOOL(key.QueryValueDWORD(NKOPCTnl::DefaultServerUseSSL, NKOPCTnl::RegValueServerUseSSL));
 	}
 
 	void CTunnelRegEntry::ServerVerifyClient(BOOL value)
@@ -659,4 +685,6 @@ namespace NkOPC
 		keySettings.Open(NKOPCTnl::RegKeySettings, key, KEY_WRITE);
 		keySettings.SetValue(static_cast<DWORD>(val), NKOPCTnl::RegValueClientTraceLevel);
 	}
+
+	
 }

@@ -84,6 +84,10 @@ namespace NkOPC
 		void EncryptRemoteServerPass(const BYTE plain[], size_t cb_plain);
 		void DecryptRemoteServerPass(BYTE plain[], size_t cb_plain, size_t& cb_plain_used);
 		size_t RemoteServerPassPlainSize();
+		void RemoteClientVerifyServer(BOOL value);
+		BOOL RemoteClientVerifyServer();
+		void RemoteClientUseCertificate(BOOL value);
+		BOOL RemoteClientUseCertificate();
 
 		static void EnumEntries(std::vector<CTunnelRegEntry>& entries, HKEY hBaseKey = HKEY_LOCAL_MACHINE);
 		static void EnumEntries(std::vector<GUID>& entries, HKEY hBaseKey = HKEY_LOCAL_MACHINE);
@@ -109,6 +113,8 @@ namespace NkOPC
 		//client
 		static int ClientTraceLevel();
 		static void ClientTraceLevel(int val);
+
+
 
 	private:
 		NkType::CString m_strCLSID;

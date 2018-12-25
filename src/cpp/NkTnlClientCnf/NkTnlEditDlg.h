@@ -59,8 +59,11 @@ private:
 	virtual void OnOK();
 public:
 	virtual BOOL OnInitDialog();
+	void UpdateState();
 	BOOL m_bUseSSL;
 	BOOL m_bVerifyServer;
 	BOOL m_bClientCertificate;
 	afx_msg void OnBnClickedCheckUseSsl();
+	CButton m_wndCheckVerifyServer;
+	CButton m_wndCheckClientCert;
 };

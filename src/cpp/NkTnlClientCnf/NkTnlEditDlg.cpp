@@ -64,6 +64,10 @@ void CNkTnlEditDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_STATIC_UNIQUE, m_wndStaticError);
 	DDX_Control(pDX, IDOK, m_wndOK);
 	DDX_Check(pDX, IDC_CHECK_USE_SSL, m_bUseSSL);
+	DDX_Check(pDX, IDC_CHECK_VERIFY_SERVER, m_bVerifyServer);
+	DDX_Check(pDX, IDC_CHECK_CLIENT_CERT, m_bClientCertificate);
+	DDX_Control(pDX, IDC_CHECK_VERIFY_SERVER, m_wndCheckVerifyServer);
+	DDX_Control(pDX, IDC_CHECK_CLIENT_CERT, m_wndCheckClientCert);
 }
 
 BEGIN_MESSAGE_MAP(CNkTnlEditDlg, CDialog)
@@ -78,7 +82,16 @@ BOOL CNkTnlEditDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	m_strOldTunnelName = m_strTunnelName;
+
+	UpdateState();
+	
 	return TRUE; 
+}
+
+void CNkTnlEditDlg::UpdateState()
+{
+	m_wndCheckClientCert.EnableWindow(m_bUseSSL);
+	m_wndCheckVerifyServer.EnableWindow(m_bUseSSL);
 }
 
 void CNkTnlEditDlg::OnEnChangeEditName()
@@ -98,7 +111,8 @@ void CNkTnlEditDlg::OnEnChangeEditName()
 
 void CNkTnlEditDlg::OnBnClickedCheckUseSsl()
 {
-	m_wndOK.EnableWindow(TRUE);
+	UpdateData();
+	UpdateState();
 }
 
 void CNkTnlEditDlg::OnBnClickedButtonSelectOpcServer()

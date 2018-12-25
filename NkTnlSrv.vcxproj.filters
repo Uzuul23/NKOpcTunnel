@@ -27,6 +27,9 @@
     <ClInclude Include="src\cpp\NkTnlSrv\targetver.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\cpp\NkTnlSrv\NkTnlSrv.cpp">
@@ -40,7 +43,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\cpp\NkTnlSrv\Resource.rc">
+    <None Include="NkOpcTunnel.licenseheader" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\cpp\NkTnlSrv\NkTnlSrv.rc">
       <Filter>Ressourcendateien</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -48,8 +54,5 @@
     <Image Include="icon\NkOpcTunnel.ico">
       <Filter>Ressourcendateien</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="NkOpcTunnel.licenseheader" />
   </ItemGroup>
 </Project>

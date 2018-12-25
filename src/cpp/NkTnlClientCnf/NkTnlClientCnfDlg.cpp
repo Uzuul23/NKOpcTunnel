@@ -207,7 +207,7 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonAdd()
 					break;
 				}
 			}
-			if (bFind == false) {
+			if (bFind) {
 				break;
 			}
 			++i;
@@ -230,6 +230,8 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonAdd()
 			Entry.RemoteServerDA2(dlg.m_bRemoteServerDA2);
 			Entry.RemoteServerDA3(dlg.m_bRemoteServerDA3);
 			Entry.RemoteServerUseSSL(dlg.m_bUseSSL);
+			Entry.RemoteClientVerifyServer(dlg.m_bVerifyServer);
+			Entry.RemoteClientUseCertificate(dlg.m_bClientCertificate);
 
 			/*if (dlg.m_strPass.GetLength() > 0) {
 				size_t cb = (dlg.m_strPass.GetLength()+1) * 2;
@@ -268,6 +270,8 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonEdit()
 		dlg.m_bRemoteServerDA2 = Entry.RemoteServerDA2();
 		dlg.m_bRemoteServerDA3 = Entry.RemoteServerDA3();
 		dlg.m_bUseSSL = Entry.RemoteServerUseSSL();
+		dlg.m_bVerifyServer = Entry.RemoteClientVerifyServer();
+		dlg.m_bClientCertificate = Entry.RemoteClientUseCertificate();
 
 		/*try {
 			size_t cb_plain = Entry.RemoteServerPassPlainSize();
@@ -306,6 +310,8 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonEdit()
 			Entry.RemoteServerDA2(dlg.m_bRemoteServerDA2);
 			Entry.RemoteServerDA3(dlg.m_bRemoteServerDA3);
 			Entry.RemoteServerUseSSL(dlg.m_bUseSSL);
+			Entry.RemoteClientVerifyServer(dlg.m_bVerifyServer);
+			Entry.RemoteClientUseCertificate(dlg.m_bClientCertificate);
 
 			/*if (dlg.m_strPass.GetLength() > 0) {
 				size_t cb = (dlg.m_strPass.GetLength() + 1) * 2;
@@ -355,11 +361,36 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonCheck()
 			NkOPC::CTunnelRegEntry& Entry = m_Entries[m_wndList.GetItemData(Sel)];
 
 			//check server connection
-			CStringA addr;
-			NkType::to_Addr<CStringA>(Entry.RemoteServerIPAddress(), Entry.RemoteServerPort(), addr);
-			
-			NkCom::CComPtr<NkCom::CServer> spSrv(NkOPC::COPCNearSrv::create_new_server(addr));
-			spSrv.Release();
+			CStringA address;
+			NkType::to_Addr<CStringA>(Entry.RemoteServerIPAddress(), Entry.RemoteServerPort(), address);
+
+			if (Entry.RemoteServerUseSSL()) {
+				NkSSL::COpenSSLCtx ctx;
+				ctx.create_TLSv1_2_client();
+
+				NkWin::CRegistry key(NKOPCTnl::RegKeySettings, HKEY_LOCAL_MACHINE, KEY_READ);
+
+				if (Entry.RemoteClientVerifyServer()) {
+
+					CStringA path(key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath));
+					path += L"ca.crt";
+					ctx.load_verify_locations(path);
+					ctx.set_verify();
+				}
+				if (Entry.RemoteClientUseCertificate()) {
+					CStringA path(key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath));
+					path += L"client.crt";
+					ctx.certificate_file(path);
+
+					path = key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath);
+					path += L"client.key";
+					ctx.use_private_key_file(path);
+				}
+				NkCom::CComPtr<NkCom::CServer> spSrv(NkOPC::COPCNearSrv::create_new_server_ssl(address, ctx));
+			}
+			else {
+				NkCom::CComPtr<NkCom::CServer> spSrv(NkOPC::COPCNearSrv::create_new_server(address));
+			}
 			
 			//check com object creation
 			HRESULT hr = spServer.CoCreateInstance(Entry.ProgID());
