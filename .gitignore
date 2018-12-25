@@ -45,7 +45,7 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
-*_i.c
+# *_i.c
 *_p.c
 *_i.h
 *.ilk
@@ -260,9 +260,6 @@ paket-files/
 __pycache__/
 *.pyc
 
-# project defined
+# project specific
 *.exe
-tools
 lib
-idl
-setup
