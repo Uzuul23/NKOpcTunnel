@@ -20,24 +20,23 @@
 *
 */
 
-#include "StdAfx.h"
+#include "stdafx.h"
 
 #include "opensslctx.h"
 #include "openssl/ssl.h"
 #include "openssl/err.h"
 #include "error/baseexception.h"
 #include "error/sslexception.h"
-#include <Strsafe.h>
 
-#if defined NK_USE_SSL
-namespace NkSSL
-{
+#include <strsafe.h>
+
+namespace NkSSL {
 	class COpenSSLCtx::CImpl
 	{
 	public:
-		SSL_CTX* m_pSSL_ctx = 0;
-		byte* m_p_default_passwd_cb_userdata = 0;
-		size_t m_cb_default_passwd_cb_userdata = 0;
+		SSL_CTX* m_pSSL_ctx = nullptr;
+		byte* m_p_default_password_cb_user_data = nullptr;
+		size_t m_cb_default_password_cb_user_data = 0;
 
 		void clear()
 		{
@@ -49,24 +48,24 @@ namespace NkSSL
 
 		void clear_pass()
 		{
-			if (m_cb_default_passwd_cb_userdata > 0 && m_p_default_passwd_cb_userdata)
-			{
-				SecureZeroMemory(m_p_default_passwd_cb_userdata, m_cb_default_passwd_cb_userdata);
+			if (m_cb_default_password_cb_user_data > 0 && m_p_default_password_cb_user_data) {
+				SecureZeroMemory(m_p_default_password_cb_user_data, m_cb_default_password_cb_user_data);
 			}
-			delete[] m_p_default_passwd_cb_userdata;
-			m_p_default_passwd_cb_userdata = 0;
-			m_cb_default_passwd_cb_userdata = 0;
+			delete[] m_p_default_password_cb_user_data;
+			m_p_default_password_cb_user_data = nullptr;
+			m_cb_default_password_cb_user_data = 0;
 		}
 
 		static bool m_ssl_initialized;
 	};
 
-	COpenSSLCtx::COpenSSLCtx() : _Impl(new CImpl)
+	COpenSSLCtx::COpenSSLCtx() noexcept : _Impl(new CImpl)
 	{
 	}
 
-	COpenSSLCtx::~COpenSSLCtx(void)
+	COpenSSLCtx::~COpenSSLCtx()
 	{
+		_Impl->clear();
 		delete _Impl;
 	}
 
@@ -95,32 +94,32 @@ namespace NkSSL
 	{
 		_Impl->clear();
 
-		const SSL_METHOD* pMeth = TLSv1_2_server_method();
-		NkError::CSSLException::check_create(pMeth
-			, "TLSv1_2_server_method", __FILE__, __LINE__);
+		const auto p_method = TLSv1_2_server_method();
+		NkError::CSSLException::check_create(p_method
+		                                     , "TLSv1_2_server_method", __FILE__, __LINE__);
 
-		_Impl->m_pSSL_ctx = SSL_CTX_new(pMeth);
+		_Impl->m_pSSL_ctx = SSL_CTX_new(p_method);
 		NkError::CSSLException::check_create(_Impl->m_pSSL_ctx
-			, "SSL_CTX_new", __FILE__, __LINE__);
+		                                     , "SSL_CTX_new", __FILE__, __LINE__);
 	}
 
 	void COpenSSLCtx::create_TLSv1_2_client()
 	{
 		_Impl->clear();
 
-		const SSL_METHOD* pMeth = TLSv1_2_client_method();
-		NkError::CSSLException::check_create(pMeth
-			, "TLSv1_2_client_method", __FILE__, __LINE__);
+		const auto p_method = TLSv1_2_client_method();
+		NkError::CSSLException::check_create(p_method
+		                                     , "TLSv1_2_client_method", __FILE__, __LINE__);
 
-		_Impl->m_pSSL_ctx = SSL_CTX_new(pMeth);
+		_Impl->m_pSSL_ctx = SSL_CTX_new(p_method);
 		NkError::CSSLException::check_create(_Impl->m_pSSL_ctx
-			, "SSL_CTX_new", __FILE__, __LINE__);
+		                                     , "SSL_CTX_new", __FILE__, __LINE__);
 	}
 
 	void COpenSSLCtx::certificate_file(const char* psz)
 	{
 		NkError::CBaseException::check_pointer(_Impl->m_pSSL_ctx, __FILE__, __LINE__);
-		
+
 		int ret = SSL_CTX_use_certificate_file(_Impl->m_pSSL_ctx, psz, SSL_FILETYPE_PEM);
 		NkError::CSSLException::check_result(ret, "SSL_CTX_use_certificate_file", __FILE__, __LINE__);
 	}
@@ -141,34 +140,32 @@ namespace NkSSL
 		NkError::CSSLException::check_result(ret, "SSL_CTX_use_PrivateKey_file", __FILE__, __LINE__);
 	}
 
-	void COpenSSLCtx::set_default_passwd(const char* psz)
+	void COpenSSLCtx::set_default_password(const char* psz)
 	{
 		_Impl->clear_pass();
 		NkError::CBaseException::check_pointer(_Impl->m_pSSL_ctx, __FILE__, __LINE__);
 
-		if (psz)
-		{
-			size_t cb_lenght = 0;
-			HRESULT hr = StringCbLengthA(psz, STRSAFE_MAX_CCH * sizeof(char), &cb_lenght);
+		if (psz) {
+			size_t cb_length = 0;
+			HRESULT hr = StringCbLengthA(psz, STRSAFE_MAX_CCH * sizeof(char), &cb_length);
 			NkError::CBaseException::check_result(hr, __FILE__, __LINE__);
 
-			cb_lenght += sizeof(char);
-			_Impl->m_p_default_passwd_cb_userdata = new byte[cb_lenght];
-			memcpy(_Impl->m_p_default_passwd_cb_userdata, psz, cb_lenght);
-			_Impl->m_cb_default_passwd_cb_userdata = cb_lenght;
+			cb_length += sizeof(char);
+			_Impl->m_p_default_password_cb_user_data = new byte[cb_length];
+			memcpy(_Impl->m_p_default_password_cb_user_data, psz, cb_length);
+			_Impl->m_cb_default_password_cb_user_data = cb_length;
 
-			SSL_CTX_set_default_passwd_cb_userdata(_Impl->m_pSSL_ctx, _Impl->m_p_default_passwd_cb_userdata);
+			SSL_CTX_set_default_passwd_cb_userdata(_Impl->m_pSSL_ctx, _Impl->m_p_default_password_cb_user_data);
 		}
-		else
-		{
-			SSL_CTX_set_default_passwd_cb_userdata(_Impl->m_pSSL_ctx, 0);
+		else {
+			SSL_CTX_set_default_passwd_cb_userdata(_Impl->m_pSSL_ctx, nullptr);
 		}
 	}
 
 	void COpenSSLCtx::set_verify(int mode /*= SSL_VERIFY_PEER|SSL_VERIFY_FAIL_IF_NO_PEER_CERT*/)
 	{
 		NkError::CBaseException::check_pointer(_Impl->m_pSSL_ctx, __FILE__, __LINE__);
-		SSL_CTX_set_verify(_Impl->m_pSSL_ctx, mode, 0);
+		SSL_CTX_set_verify(_Impl->m_pSSL_ctx, mode, nullptr);
 	}
 
 	SSL_CTX* COpenSSLCtx::data()
@@ -176,4 +173,3 @@ namespace NkSSL
 		return _Impl->m_pSSL_ctx;
 	}
 }
-#endif

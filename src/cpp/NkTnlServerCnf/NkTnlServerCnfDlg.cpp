@@ -20,14 +20,11 @@
 *
 */
 
-// NkTnlServerCnfDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
+#include "resource.h"
+
 #include "NkTnlServerCnf.h"
 #include "NkTnlServerCnfDlg.h"
-#include "afxdialogex.h"
-#include "resource.h"
 #include "PassDlg.h"
 
 #ifdef _DEBUG
@@ -47,11 +44,11 @@ public:
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	void DoDataExchange(CDataExchange* pDX) override; // DDX/DDV support
 
-// Implementation
+	// Implementation
 protected:
-	DECLARE_MESSAGE_MAP()
+DECLARE_MESSAGE_MAP()
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -70,8 +67,9 @@ END_MESSAGE_MAP()
 
 CNkTnlServerCnfDlg::CNkTnlServerCnfDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_NKTNLSERVERCNF_DIALOG, pParent)
-	, m_strEditServiceStatus(_T(""))
-	, m_bServerUseSSL(FALSE)
+	  , m_strEditServiceStatus(_T(""))
+	  , m_bServerUseSSL(FALSE)
+	  , m_bVerifyClient(FALSE)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -85,37 +83,38 @@ void CNkTnlServerCnfDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_IPAddress(pDX, IDC_IPADDRESS, m_dwIPAdresse);
 	DDX_Control(pDX, IDC_TRACE_LEVEL, m_wndTraceLevel);
 	DDX_Check(pDX, IDC_CHECK_USE_SSL, m_bServerUseSSL);
+	DDX_Check(pDX, IDC_CHECK_VERIFY_CLIENT, m_bVerifyClient);
+	DDX_Control(pDX, IDC_CHECK_VERIFY_CLIENT, m_wndCheckVerifyClient);
 }
 
 BEGIN_MESSAGE_MAP(CNkTnlServerCnfDlg, CDialogEx)
-	ON_WM_SYSCOMMAND()
-	ON_WM_PAINT()
-	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDC_BUTTON_LOGFILE, &CNkTnlServerCnfDlg::OnBnClickedButtonLogfile)
-	ON_BN_CLICKED(IDC_BUTTON_INSTALL_SERVICE, &CNkTnlServerCnfDlg::OnBnClickedButtonInstallService)
-	ON_BN_CLICKED(IDC_BUTTON_REMOVE_SERVICE, &CNkTnlServerCnfDlg::OnBnClickedButtonRemoveService)
-	ON_BN_CLICKED(IDC_BUTTON_START_SERVICE, &CNkTnlServerCnfDlg::OnBnClickedButtonStartService)
-	ON_BN_CLICKED(IDC_BUTTON_STOP_SERVICE, &CNkTnlServerCnfDlg::OnBnClickedButtonStopService)
-	ON_BN_CLICKED(IDC_BUTTON_APPLY, &CNkTnlServerCnfDlg::OnBnClickedApply)
-	ON_BN_CLICKED(IDOK, &CNkTnlServerCnfDlg::OnBnClickedOk)
-	ON_NOTIFY(IPN_FIELDCHANGED, IDC_IPADDRESS, &CNkTnlServerCnfDlg::OnIpnFieldchangedIpaddress)
-	ON_EN_CHANGE(IDC_EDIT_PORT, &CNkTnlServerCnfDlg::OnEnChangeEditPort)
-	ON_BN_CLICKED(IDC_BUTTON_PASSWORD, &CNkTnlServerCnfDlg::OnBnClickedButtonPassword)
-	ON_CBN_SELCHANGE(IDC_TRACE_LEVEL, &CNkTnlServerCnfDlg::OnCbnSelchangeTraceLevel)
-	ON_BN_CLICKED(IDC_CHECK_USE_SSL, &CNkTnlServerCnfDlg::OnBnClickedCheckUseSsl)
+		ON_WM_SYSCOMMAND()
+		ON_WM_PAINT()
+		ON_WM_QUERYDRAGICON()
+		ON_BN_CLICKED(IDC_BUTTON_LOGFILE, &CNkTnlServerCnfDlg::OnBnClickedButtonLogfile)
+		ON_BN_CLICKED(IDC_BUTTON_INSTALL_SERVICE, &CNkTnlServerCnfDlg::OnBnClickedButtonInstallService)
+		ON_BN_CLICKED(IDC_BUTTON_REMOVE_SERVICE, &CNkTnlServerCnfDlg::OnBnClickedButtonRemoveService)
+		ON_BN_CLICKED(IDC_BUTTON_START_SERVICE, &CNkTnlServerCnfDlg::OnBnClickedButtonStartService)
+		ON_BN_CLICKED(IDC_BUTTON_STOP_SERVICE, &CNkTnlServerCnfDlg::OnBnClickedButtonStopService)
+		ON_BN_CLICKED(IDC_BUTTON_APPLY, &CNkTnlServerCnfDlg::OnBnClickedApply)
+		ON_BN_CLICKED(IDOK, &CNkTnlServerCnfDlg::OnBnClickedOk)
+		ON_NOTIFY(IPN_FIELDCHANGED, IDC_IPADDRESS, &CNkTnlServerCnfDlg::OnIpnFieldchangedIpaddress)
+		ON_EN_CHANGE(IDC_EDIT_PORT, &CNkTnlServerCnfDlg::OnEnChangeEditPort)
+		ON_BN_CLICKED(IDC_BUTTON_PASSWORD, &CNkTnlServerCnfDlg::OnBnClickedButtonPassword)
+		ON_CBN_SELCHANGE(IDC_TRACE_LEVEL, &CNkTnlServerCnfDlg::OnCbnSelchangeTraceLevel)
+		ON_BN_CLICKED(IDC_CHECK_USE_SSL, &CNkTnlServerCnfDlg::OnBnClickedCheckUseSsl)
+		ON_BN_CLICKED(IDC_CHECK_VERIFY_CLIENT, &CNkTnlServerCnfDlg::OnBnClickedCheckVerifyClient)
 END_MESSAGE_MAP()
 
 // CNkTnlServerCnfDlg message handlers
 
 void CNkTnlServerCnfDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
-	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
-	{
+	if ((nID & 0xFFF0) == IDM_ABOUTBOX) {
 		CAboutDlg dlgAbout;
 		dlgAbout.DoModal();
 	}
-	else
-	{
+	else {
 		CDialogEx::OnSysCommand(nID, lParam);
 	}
 }
@@ -136,8 +135,7 @@ void CNkTnlServerCnfDlg::OnPaint()
 		int y = (rect.Height() - cyIcon + 1) / 2;
 		dc.DrawIcon(x, y, m_hIcon);
 	}
-	else
-	{
+	else {
 		CDialogEx::OnPaint();
 	}
 }
@@ -155,14 +153,12 @@ BOOL CNkTnlServerCnfDlg::OnInitDialog()
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
 	CMenu* pSysMenu = GetSystemMenu(FALSE);
-	if (pSysMenu != NULL)
-	{
+	if (pSysMenu != nullptr) {
 		BOOL bNameValid;
 		CString strAboutMenu;
 		bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);
 		ASSERT(bNameValid);
-		if (!strAboutMenu.IsEmpty())
-		{
+		if (!strAboutMenu.IsEmpty()) {
 			pSysMenu->AppendMenu(MF_SEPARATOR);
 			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
 		}
@@ -182,7 +178,7 @@ BOOL CNkTnlServerCnfDlg::OnInitDialog()
 	m_wndTraceLevel.AddString(str);
 
 	try {
-		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_READ);
+		NkWin::CRegistry key(nullptr, HKEY_LOCAL_MACHINE, KEY_READ);
 		NkWin::CRegistry keySettings;
 		keySettings.Open(NKOPCTnl::RegKeySettings, key);
 		m_strServerPathName = keySettings.QueryValueString(NKOPCTnl::RegValueServerInstallPath);
@@ -190,6 +186,8 @@ BOOL CNkTnlServerCnfDlg::OnInitDialog()
 		m_dwIPAdresse = NkOPC::CTunnelRegEntry::ServerIP();
 		m_wndTraceLevel.SetCurSel(NkOPC::CTunnelRegEntry::ServerTraceLevel());
 		m_bServerUseSSL = NkOPC::CTunnelRegEntry::ServerUseSSL();
+		m_bVerifyClient = NkOPC::CTunnelRegEntry::ServerVerifyClient();
+		m_wndCheckVerifyClient.EnableWindow(m_bServerUseSSL);
 	}
 	catch (NkError::CException& e) {
 		e.report();
@@ -212,8 +210,7 @@ bool CNkTnlServerCnfDlg::Apply()
 
 	UpdateData();
 
-	try
-	{
+	try {
 		NkOPC::CTunnelRegEntry::ServerPort(m_nPort);
 		NkOPC::CTunnelRegEntry::ServerIP(m_dwIPAdresse);
 		NkOPC::CTunnelRegEntry::ServerUseSSL(m_bServerUseSSL);
@@ -248,6 +245,7 @@ void CNkTnlServerCnfDlg::Changed()
 {
 	GetDlgItem(IDOK)->EnableWindow();
 	GetDlgItem(IDC_BUTTON_APPLY)->EnableWindow();
+	GetDlgItem(IDC_CHECK_VERIFY_CLIENT)->EnableWindow(m_bServerUseSSL);
 	m_bChanged = true;
 }
 
@@ -258,25 +256,25 @@ void CNkTnlServerCnfDlg::NeedRestart()
 
 void CNkTnlServerCnfDlg::UpdateServiceStatus()
 {
-	SC_HANDLE hSCM = ::OpenSCManager(0, 0, GENERIC_WRITE);
+	SC_HANDLE hSCM = ::OpenSCManager(nullptr, nullptr, GENERIC_WRITE);
 	CString strStatusText(L"--error--");
-	if (hSCM == 0) {
+	if (hSCM == nullptr) {
 		GetDlgItem(IDC_EDIT_SERVICE_STATUS)->SetWindowText(strStatusText);
 		return;
 	}
 
-	SC_HANDLE hService = ::OpenService(hSCM, NKOPCTnl::ServiceName, SC_MANAGER_ALL_ACCESS);
-	m_bServiceInstalled = hService == 0 ? false : true;
+	const auto hService = ::OpenService(hSCM, NKOPCTnl::ServiceName, SC_MANAGER_ALL_ACCESS);
+	m_bServiceInstalled = hService == nullptr;
 	m_bServiceRunning = false;
 
 	if (hService) {
 		DWORD dwBytesNeeded = 0;
-		SERVICE_STATUS_PROCESS ssStatus = { 0 };
+		SERVICE_STATUS_PROCESS ssStatus = {0};
 
-		BOOL Ret = ::QueryServiceStatusEx(hService, SC_STATUS_PROCESS_INFO
-			, (LPBYTE)&ssStatus, sizeof(SERVICE_STATUS_PROCESS), &dwBytesNeeded);
+		BOOL Ret = QueryServiceStatusEx(hService, SC_STATUS_PROCESS_INFO
+		                                , (LPBYTE)&ssStatus, sizeof(SERVICE_STATUS_PROCESS), &dwBytesNeeded);
 
-		m_bServiceRunning = ssStatus.dwCurrentState == SERVICE_RUNNING ? true : false;
+		m_bServiceRunning = ssStatus.dwCurrentState == SERVICE_RUNNING;
 	}
 
 	GetDlgItem(IDC_BUTTON_INSTALL_SERVICE)
@@ -307,15 +305,14 @@ void CNkTnlServerCnfDlg::UpdateServiceStatus()
 
 void CNkTnlServerCnfDlg::OnBnClickedButtonLogfile()
 {
-	WCHAR* pszFoldetPath = 0;
-	HRESULT hr = SHGetKnownFolderPath(FOLDERID_ProgramData, 0, 0, &pszFoldetPath);
-	if (SUCCEEDED(hr))
-	{
+	WCHAR* pszFoldetPath = nullptr;
+	HRESULT hr = SHGetKnownFolderPath(FOLDERID_ProgramData, 0, nullptr, &pszFoldetPath);
+	if (SUCCEEDED(hr)) {
 		CString strPath(pszFoldetPath);
 		CoTaskMemFree(pszFoldetPath);
 		strPath += L"\\";
 		strPath += NKOPCTnl::LogPath;
-		::ShellExecute(0, L"explore", strPath, 0, 0, SW_SHOWDEFAULT);
+		::ShellExecute(nullptr, L"explore", strPath, nullptr, nullptr, SW_SHOWDEFAULT);
 	}
 }
 
@@ -328,7 +325,7 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonInstallService()
 	CWaitCursor wait;
 
 	try {
-		SHELLEXECUTEINFO ShellInfo = { 0 };
+		SHELLEXECUTEINFO ShellInfo = {0};
 		ShellInfo.cbSize = sizeof(ShellInfo);
 		ShellInfo.lpFile = m_strServerPathName;
 		ShellInfo.lpParameters = L"-install";
@@ -340,16 +337,16 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonInstallService()
 			throw GetLastError();
 		}
 
-		DWORD dwRet = ::WaitForSingleObject(ShellInfo.hProcess, INFINITE);
+		DWORD dwRet = WaitForSingleObject(ShellInfo.hProcess, INFINITE);
 		if (dwRet == WAIT_FAILED) {
-			::CloseHandle(ShellInfo.hProcess);
+			CloseHandle(ShellInfo.hProcess);
 			throw GetLastError();
 		}
 
 		DWORD dwExitCode = 0;
-		bRet = ::GetExitCodeProcess(ShellInfo.hProcess, &dwExitCode);
+		bRet = GetExitCodeProcess(ShellInfo.hProcess, &dwExitCode);
 		if (!bRet) {
-			::CloseHandle(ShellInfo.hProcess);
+			CloseHandle(ShellInfo.hProcess);
 			throw GetLastError();
 		}
 
@@ -357,7 +354,7 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonInstallService()
 			AfxMessageBox(IDS_UNKNOWN_ERROR, MB_ICONSTOP | MB_OK);
 		}
 
-		::CloseHandle(ShellInfo.hProcess);
+		CloseHandle(ShellInfo.hProcess);
 	}
 	catch (DWORD error) {
 		AfxMessageBox(NkError::error_to_string(error), MB_ICONSTOP | MB_OK);
@@ -375,7 +372,7 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonRemoveService()
 	CWaitCursor wait;
 
 	try {
-		SHELLEXECUTEINFO ShellInfo = { 0 };
+		SHELLEXECUTEINFO ShellInfo = {0};
 		ShellInfo.cbSize = sizeof(ShellInfo);
 		ShellInfo.lpFile = m_strServerPathName;
 		ShellInfo.lpParameters = L"-remove";
@@ -387,17 +384,16 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonRemoveService()
 			throw GetLastError();
 		}
 
-		DWORD dwRet = ::WaitForSingleObject(ShellInfo.hProcess, INFINITE);
-		if (dwRet == WAIT_FAILED)
-		{
-			::CloseHandle(ShellInfo.hProcess);
+		DWORD dwRet = WaitForSingleObject(ShellInfo.hProcess, INFINITE);
+		if (dwRet == WAIT_FAILED) {
+			CloseHandle(ShellInfo.hProcess);
 			throw GetLastError();
 		}
 
 		DWORD dwExitCode = 0;
-		bRet = ::GetExitCodeProcess(ShellInfo.hProcess, &dwExitCode);
+		bRet = GetExitCodeProcess(ShellInfo.hProcess, &dwExitCode);
 		if (!bRet) {
-			::CloseHandle(ShellInfo.hProcess);
+			CloseHandle(ShellInfo.hProcess);
 			throw GetLastError();
 		}
 
@@ -405,7 +401,7 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonRemoveService()
 			AfxMessageBox(IDS_UNKNOWN_ERROR, MB_ICONSTOP | MB_OK);
 		}
 
-		::CloseHandle(ShellInfo.hProcess);
+		CloseHandle(ShellInfo.hProcess);
 	}
 	catch (DWORD error) {
 		AfxMessageBox(NkError::error_to_string(error), MB_ICONSTOP | MB_OK);
@@ -423,7 +419,7 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonStartService()
 	CWaitCursor wait;
 
 	try {
-		SHELLEXECUTEINFO ShellInfo = { 0 };
+		SHELLEXECUTEINFO ShellInfo = {0};
 		ShellInfo.cbSize = sizeof(ShellInfo);
 		ShellInfo.lpFile = m_strServerPathName;
 		ShellInfo.lpParameters = L"-start";
@@ -435,16 +431,16 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonStartService()
 			throw GetLastError();
 		}
 
-		DWORD dwRet = ::WaitForSingleObject(ShellInfo.hProcess, INFINITE);
+		DWORD dwRet = WaitForSingleObject(ShellInfo.hProcess, INFINITE);
 		if (dwRet == WAIT_FAILED) {
-			::CloseHandle(ShellInfo.hProcess);
+			CloseHandle(ShellInfo.hProcess);
 			throw GetLastError();
 		}
 
 		DWORD dwExitCode = 0;
-		bRet = ::GetExitCodeProcess(ShellInfo.hProcess, &dwExitCode);
+		bRet = GetExitCodeProcess(ShellInfo.hProcess, &dwExitCode);
 		if (!bRet) {
-			::CloseHandle(ShellInfo.hProcess);
+			CloseHandle(ShellInfo.hProcess);
 			throw GetLastError();
 		}
 
@@ -452,7 +448,7 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonStartService()
 			AfxMessageBox(IDS_UNKNOWN_ERROR, MB_ICONSTOP | MB_OK);
 		}
 
-		::CloseHandle(ShellInfo.hProcess);
+		CloseHandle(ShellInfo.hProcess);
 	}
 	catch (DWORD error) {
 		AfxMessageBox(NkError::error_to_string(error), MB_ICONSTOP | MB_OK);
@@ -470,7 +466,7 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonStopService()
 	CWaitCursor wait;
 
 	try {
-		SHELLEXECUTEINFO ShellInfo = { 0 };
+		SHELLEXECUTEINFO ShellInfo = {0};
 		ShellInfo.cbSize = sizeof(ShellInfo);
 		ShellInfo.lpFile = m_strServerPathName;
 		ShellInfo.lpParameters = L"-stop";
@@ -482,16 +478,16 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonStopService()
 			throw GetLastError();
 		}
 
-		DWORD dwRet = ::WaitForSingleObject(ShellInfo.hProcess, INFINITE);
+		DWORD dwRet = WaitForSingleObject(ShellInfo.hProcess, INFINITE);
 		if (dwRet == WAIT_FAILED) {
-			::CloseHandle(ShellInfo.hProcess);
+			CloseHandle(ShellInfo.hProcess);
 			throw GetLastError();
 		}
 
 		DWORD dwExitCode = 0;
-		bRet = ::GetExitCodeProcess(ShellInfo.hProcess, &dwExitCode);
+		bRet = GetExitCodeProcess(ShellInfo.hProcess, &dwExitCode);
 		if (!bRet) {
-			::CloseHandle(ShellInfo.hProcess);
+			CloseHandle(ShellInfo.hProcess);
 			throw GetLastError();
 		}
 
@@ -499,7 +495,7 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonStopService()
 			AfxMessageBox(IDS_UNKNOWN_ERROR, MB_ICONSTOP | MB_OK);
 		}
 
-		::CloseHandle(ShellInfo.hProcess);
+		CloseHandle(ShellInfo.hProcess);
 	}
 	catch (DWORD error) {
 		AfxMessageBox(NkError::error_to_string(error), MB_ICONSTOP | MB_OK);
@@ -520,7 +516,7 @@ void CNkTnlServerCnfDlg::OnBnClickedOk()
 	}
 }
 
-void CNkTnlServerCnfDlg::OnIpnFieldchangedIpaddress(NMHDR *pNMHDR, LRESULT *pResult)
+void CNkTnlServerCnfDlg::OnIpnFieldchangedIpaddress(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMIPADDRESS pIPAddr = reinterpret_cast<LPNMIPADDRESS>(pNMHDR);
 	// TODO: Add your control notification handler code here
@@ -543,7 +539,7 @@ void CNkTnlServerCnfDlg::OnBnClickedButtonPassword()
 		try {
 			dlg.m_strPassOK += NKOPCTnl::Salt;
 			nk_ssl::CSHA::SHA256(reinterpret_cast<BYTE*>(dlg.m_strPassOK.GetBuffer())
-				, dlg.m_strPassOK.GetLength() * sizeof(wchar_t), m_digest);
+			                     , dlg.m_strPassOK.GetLength() * sizeof(wchar_t), m_digest);
 			m_bPassChanged = true;
 			Changed();
 		}
@@ -565,8 +561,15 @@ void CNkTnlServerCnfDlg::OnCbnSelchangeTraceLevel()
 	NeedRestart();
 }
 
-
 void CNkTnlServerCnfDlg::OnBnClickedCheckUseSsl()
+{
+	UpdateData();
+	Changed();
+	NeedRestart();
+}
+
+
+void CNkTnlServerCnfDlg::OnBnClickedCheckVerifyClient()
 {
 	Changed();
 	NeedRestart();

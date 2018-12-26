@@ -104,6 +104,7 @@
     <ClCompile Include="src\cpp\NkTnlSrv\NkTnlSrvService.cpp" />
     <ClCompile Include="src\cpp\NkTnlSrv\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

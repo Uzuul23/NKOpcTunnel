@@ -21,11 +21,14 @@
 */
 
 #include "stdafx.h"
+
 #include "opcregistry.h"
-#include "NkOpcTunnel/defines.h"
+
+#include "NkOPCTunnel/defines.h"
 #include "ssl/aes.h"
 #include "windows/localmachine.h"
 #include "types/conversion.h"
+#include "ssl/opensslctx.h"
 
 namespace NkOPC
 {
@@ -282,6 +285,29 @@ namespace NkOPC
 	{
 		m_TmpKey.Open(L"RemoteServer", m_KeyClassesCLSIDClass, KEY_READ);
 		return NkType::to_BOOL(m_TmpKey.QueryValueDWORD(L"ClientUseCert"));
+	}
+
+	void CTunnelRegEntry::Setup(NkSSL::COpenSSLCtx& ctx)
+	{
+		ctx.create_TLSv1_2_client();
+
+		NkWin::CRegistry key(NKOPCTnl::RegKeySettings, HKEY_LOCAL_MACHINE, KEY_READ);
+
+		if (RemoteClientVerifyServer()) {
+			std::string path(key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath));
+			path += "ca.crt";
+			ctx.load_verify_locations(path.c_str());
+			ctx.set_verify();
+		}
+		if (RemoteClientUseCertificate()) {
+			std::string path(key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath));
+			path += "client.crt";
+			ctx.certificate_file(path.c_str());
+
+			path = key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath);
+			path += "client.key";
+			ctx.use_private_key_file(path.c_str());
+		}
 	}
 
 	void CTunnelRegEntry::ClsContext(DWORD Value)

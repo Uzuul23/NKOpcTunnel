@@ -51,6 +51,10 @@ private:
 	DWORD m_dwIPAdresse = 0;
 	BYTE m_digest[SHA256_DIGEST_LENGTH] = { 0 };
 	bool m_bPassChanged = false;
+	BOOL m_bServerUseSSL;
+	BOOL m_bVerifyClient;
+	CButton m_wndCheckVerifyClient;
+	CComboBox m_wndTraceLevel;
 
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
@@ -66,11 +70,8 @@ private:
 	afx_msg void OnIpnFieldchangedIpaddress(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnEnChangeEditPort();
 	afx_msg void OnBnClickedButtonPassword();
-public:
 	afx_msg void OnCbnSelchangeTraceLevel();
-	CComboBox m_wndTraceLevel;
-private:
-	BOOL m_bServerUseSSL;
-public:
 	afx_msg void OnBnClickedCheckUseSsl();
+	afx_msg void OnBnClickedCheckVerifyClient();
+	
 };

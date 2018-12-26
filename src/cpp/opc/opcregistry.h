@@ -28,6 +28,10 @@
 #include <vector>
 #include <guiddef.h>
 
+namespace NkSSL {
+	class COpenSSLCtx;
+}
+
 namespace NkOPC
 {
 	// {C9C2E5C2-B518-4F9E-A766-C30D01D4D46D}
@@ -88,6 +92,7 @@ namespace NkOPC
 		BOOL RemoteClientVerifyServer();
 		void RemoteClientUseCertificate(BOOL value);
 		BOOL RemoteClientUseCertificate();
+		void Setup(NkSSL::COpenSSLCtx& ctx);
 
 		static void EnumEntries(std::vector<CTunnelRegEntry>& entries, HKEY hBaseKey = HKEY_LOCAL_MACHINE);
 		static void EnumEntries(std::vector<GUID>& entries, HKEY hBaseKey = HKEY_LOCAL_MACHINE);

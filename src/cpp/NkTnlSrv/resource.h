@@ -2,8 +2,7 @@
 // Von Microsoft Visual C++ generierte Includedatei.
 // Verwendet durch NkTnlSrv.rc
 //
-#define IDI_ICON1                       101
-#define IDI_ICON2                       102
+#define IDI_ICON                        102
 
 // Next default values for new objects
 // 

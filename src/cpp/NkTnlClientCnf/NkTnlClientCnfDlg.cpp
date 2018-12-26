@@ -358,34 +358,16 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonCheck()
 		if (Sel != -1) {
 			CWaitCursor wait;
 			NkCom::CComPtr<IOPCServer> spServer;
-			NkOPC::CTunnelRegEntry& Entry = m_Entries[m_wndList.GetItemData(Sel)];
+			auto entry = m_Entries[m_wndList.GetItemData(Sel)];
 
 			//check server connection
 			CStringA address;
-			NkType::to_Addr<CStringA>(Entry.RemoteServerIPAddress(), Entry.RemoteServerPort(), address);
+			NkType::to_Addr<CStringA>(entry.RemoteServerIPAddress(), entry.RemoteServerPort(), address);
 
-			if (Entry.RemoteServerUseSSL()) {
+			if (entry.RemoteServerUseSSL()) {
 				NkSSL::COpenSSLCtx ctx;
-				ctx.create_TLSv1_2_client();
-
-				NkWin::CRegistry key(NKOPCTnl::RegKeySettings, HKEY_LOCAL_MACHINE, KEY_READ);
-
-				if (Entry.RemoteClientVerifyServer()) {
-
-					CStringA path(key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath));
-					path += L"ca.crt";
-					ctx.load_verify_locations(path);
-					ctx.set_verify();
-				}
-				if (Entry.RemoteClientUseCertificate()) {
-					CStringA path(key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath));
-					path += L"client.crt";
-					ctx.certificate_file(path);
-
-					path = key.QueryValueAnsiString(NKOPCTnl::RegValueClientCertPath);
-					path += L"client.key";
-					ctx.use_private_key_file(path);
-				}
+				entry.Setup(ctx);
+				
 				NkCom::CComPtr<NkCom::CServer> spSrv(NkOPC::COPCNearSrv::create_new_server_ssl(address, ctx));
 			}
 			else {
@@ -393,7 +375,7 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonCheck()
 			}
 			
 			//check com object creation
-			HRESULT hr = spServer.CoCreateInstance(Entry.ProgID());
+			HRESULT hr = spServer.CoCreateInstance(entry.ProgID());
 			NkError::CBaseException::check_result(hr, __FILE__, __LINE__);
 
 			NkOPC::COPCServerStatus status;
@@ -413,7 +395,7 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonCheck()
 
 void CNkTnlClientCnfDlg::UpdateButtons()
 {
-	BOOL Enable = m_wndList.GetCurSel() != -1 && m_Entries.size() > 0;
+	const auto Enable = m_wndList.GetCurSel() != -1 && m_Entries.size() > 0;
 	m_wndEditButton.EnableWindow(Enable);
 	m_wndCheckButton.EnableWindow(Enable);
 	m_wndRemoveButton.EnableWindow(Enable);

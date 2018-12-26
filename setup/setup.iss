@@ -1,7 +1,7 @@
-#define NkAppVersion "0.9"
+#define NkAppVersion "0.9.1"
 #define NkAppPublisher "Henryk Anschütz / Berlin Germany"
 #define NKAppName "NKOPCTunnel"
-#define NKAppCopyright "Copyright (C) Henryk Anschütz"
+#define NKAppCopyright "Copyright (C) Henryk Anschuetz"
 #define MyAppURL "https://www.github.com/uzuul23"
 
 [Setup]
@@ -57,26 +57,34 @@ Name: "client"; Description: "Client Files"; Types: full client-only
 Name: "server"; Description: "Server Files"; Types: full server-only
 
 [Files]
-; Source: "C:\Program Files (x86)\Inno Setup 5\Examples\MyProg.exe"; DestDir: "{app}"; Flags: ignoreversion
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-
 ; Client
 Source: "..\bin\NkTnlClient.dll";  DestDir: "{app}\bin"; Flags: ignoreversion regserver; Components: client
 Source: "..\bin\NkTnlClientCnf.exe";  DestDir: "{app}\bin"; Flags: ignoreversion; Components: client
+
+Source: "..\cert\ca.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: client
+Source: "..\cert\client.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: client
+Source: "..\cert\client.key";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: client
 
 ; Server
 Source: "..\bin\NkTnlSrv.exe";  DestDir: "{app}\bin"; Flags: ignoreversion; Components: server
 Source: "..\bin\NkTnlServerCnf.exe";  DestDir: "{app}\bin"; Flags: ignoreversion; Components: server
 
-[Registry]
-; Root: HKLM; Subkey: "Software\WinPeSim"; Flags: uninsdeletekeyifempty
-; Root: HKLM; Subkey: "Software\WinPeSim\NkOpcTunnel"; Flags: uninsdeletekey
-; Root: HKLM; Subkey: "Software\WinPeSim\NkOpcTunnel\Settings"; ValueType: string; ValueName: "InstallPath"; ValueData: "{app}"
+Source: "..\cert\ca.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
+Source: "..\cert\server.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
+Source: "..\cert\server.key";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
 
 [Icons]
-; Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-; Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
+Name: "{group}\Nk OPC Server Tool"; Filename: "{app}\bin\NkTnlServerCnf.exe"; Components: server
+Name: "{group}\Nk OPC Client Tool"; Filename: "{app}\bin\NkTnlClientCnf.exe"; Components: client
+Name: "{group}\{cm:UninstallProgram,{#NKAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
-; Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-register"; StatusMsg: "register server"; Components: server
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-install"; StatusMsg: "install service"; Components: server
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-start"; StatusMsg: "start service"; Components: server
+
+[UninstallRun]
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-stop"; StatusMsg: "stop service"; Components: server
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-remove"; StatusMsg: "remove service"; Components: server
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-unregister"; StatusMsg: "(un)register server"; Components: server
 

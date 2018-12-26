@@ -21,18 +21,19 @@
 */
 
 #include "stdafx.h"
+
 #include "dllmodule.h"
+#include "opc/opcregistry.h"
 
 
 HRESULT CDllModule::DllRegisterServer()
 {
-	try
-	{
+	try {
 		//TODO: Error handling
 		WCHAR szFileName[MAX_PATH] = L"";
-		DWORD ret = ::GetModuleFileNameW(get_module(), szFileName, MAX_PATH);
+		DWORD ret = GetModuleFileNameW(get_module(), szFileName, MAX_PATH);
 
-		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_CREATE_SUB_KEY);
+		NkWin::CRegistry key(nullptr, HKEY_LOCAL_MACHINE, KEY_CREATE_SUB_KEY);
 		NkWin::CRegistry keySettings;
 		key.CreateKey(NKOPCTnl::RegKeySettings, &keySettings, KEY_WRITE);
 
@@ -51,26 +52,24 @@ HRESULT CDllModule::DllRegisterServer()
 		key.CreateKey(NKOPCTnl::RegKeySettings, &keySettings, KEY_WRITE);
 		keySettings.SetValue(str.c_str(), NKOPCTnl::RegValueClientCertPath);
 	}
-	catch (NkError::CException& e)
-	{
+	catch (NkError::CException& e) {
 		e.report();
 		return e.error();
 	}
 
 	return S_OK;
 }
+
 HRESULT CDllModule::DllUnregisterServer()
 {
-	try
-	{
-		NkWin::CRegistry key(0, HKEY_LOCAL_MACHINE, KEY_WRITE);
+	try {
+		NkWin::CRegistry key(nullptr, HKEY_LOCAL_MACHINE, KEY_WRITE);
 		NkWin::CRegistry keySettings;
 		keySettings.Open(NKOPCTnl::RegKeySettings, key);
 		keySettings.DeleteKeyValueIf(NKOPCTnl::RegValueClientInstallPath);
 		keySettings.DeleteKeyValueIf(NKOPCTnl::RegValueClientCertPath);
 	}
-	catch (NkError::CException& e)
-	{
+	catch (NkError::CException& e) {
 		e.report();
 	}
 	return S_OK;
@@ -82,54 +81,38 @@ HRESULT CDllModule::DllGetClassObject(REFCLSID clsid, REFIID riid, void** ppv)
 		NkThreading::CLockGuard lock(get_global_lock());
 
 		NkError::CBaseException::check(NkType::to_bool(riid == IID_IClassFactory
-			|| riid == IID_IClassFactory2), CLASS_E_CLASSNOTAVAILABLE, __FILE__, __LINE__);
+			|| riid == IID_IClassFactory2)
+			, CLASS_E_CLASSNOTAVAILABLE, __FILE__, __LINE__);
 
-		NkOPC::CTunnelRegEntry Entry(clsid);
+		NkOPC::CTunnelRegEntry entry(clsid);
 
-//#if defined NK_USE_SSL
-#if defined NK__
-		if (Entry.RemoteServerUseSSl()) {
-			if (m_ssl_ctx.data() == 0) {
-				NkSSL::COpenSSLCtx::initialize();
-				m_ssl_ctx.create_TLSv1_2_client();
-			}
+		std::string address;
+		NkType::to_Addr(entry.RemoteServerIPAddress(), entry.RemoteServerPort(), address);
 
-			NkSocket::CBind bind;
-			bind.bin_ip(Entry.RemoteServerIPAddress());
-			bind.port(static_cast<u_short>(Entry.RemoteServerPort()));
+		if (entry.RemoteServerUseSSl()) {
+			NkSSL::COpenSSLCtx ctx;
+			entry.Setup(ctx);
 
-			NkCom::CComPtr<NkCom::CServer> spSrv(NkOPC::COPCNearSrv::create_new_server_ssl(bind
-				, m_ssl_ctx, this));
+			auto srv = NkOPC::COPCNearSrv::create_new_server_ssl(address.c_str(), ctx);
+			srv->clsid(clsid);
 
-			return spSrv->remote_create_class_factory(Entry.RemoteServerCLSID()
-				, Entry.ClsContext(), IID_IOPCServer, riid, ppv);
+			//NkError::CBaseException::check_result(on_logon(p_srv), __FILE__, __LINE__);
+
+			const auto hr = srv->remote_create_class_factory(entry.RemoteServerCLSID()
+				, entry.ClsContext(), IID_IOPCServer, riid, ppv);
+
+			return hr;
 		}
-		else {
-			NkSocket::CBind bind;
-			bind.bin_ip(Entry.RemoteServerIPAddress());
-			bind.port(static_cast<u_short>(Entry.RemoteServerPort()));
 
-			NkCom::CComPtr<NkCom::CServer> spSrv(NkOPC::COPCNearSrv::create_new_server(&bind
-				, this));
+		auto srv = NkOPC::COPCNearSrv::create_new_server(address.c_str());
+		srv->clsid(clsid);
 
-			return spSrv->remote_create_class_factory(Entry.RemoteServerCLSID()
-				, Entry.ClsContext(), IID_IOPCServer, riid, ppv);
-		}
-#else
-		
-		std::string addr;
-		NkType::to_Addr(Entry.RemoteServerIPAddress(), Entry.RemoteServerPort(), addr);
+		//NkError::CBaseException::check_result(on_logon(srv), __FILE__, __LINE__);
 
-		NkOPC::COPCNearSrv* p_srv = NkOPC::COPCNearSrv::create_new_server(addr.c_str());
-		p_srv->clsid(clsid);
-
-		NkError::CBaseException::check_result(on_logon(p_srv), __FILE__, __LINE__);
-
-		HRESULT hr = p_srv->remote_create_class_factory(Entry.RemoteServerCLSID()
-			, Entry.ClsContext(), IID_IOPCServer, riid, ppv);
+		const auto hr = srv->remote_create_class_factory(entry.RemoteServerCLSID()
+			, entry.ClsContext(), IID_IOPCServer, riid, ppv);
 
 		return hr;
-#endif
 	}
 	catch (NkError::CException& e) {
 		e.report();
@@ -145,24 +128,22 @@ BOOL CDllModule::DllMain(HANDLE hinstDLL, DWORD ul_reason_for_call, LPVOID lpRes
 		return FALSE;
 	}
 
-	try
-	{
+	try {
 		switch (ul_reason_for_call) {
-		case DLL_PROCESS_ATTACH: {
-			NkTrace::CTrace& Trace = NkTrace::CTrace::Instance();
-			Trace.Subscribe(this);
-			Trace.TraceLevel(NkTrace::CTrace::TraceLevel_3);
-			NkSocket::CSocket::initialize();
-			break;
-		}
-		case DLL_PROCESS_DETACH: {
-#if defined NK_USE_SSL
-			NkSSL::COpenSSLCtx::cleanup();
-#endif
-			NkSocket::CSocket::cleanup();
-			NkTrace::CTrace::Instance().UnSubscribe(this);
-			break;
-		}
+			case DLL_PROCESS_ATTACH: {
+				NkTrace::CTrace& Trace = NkTrace::CTrace::Instance();
+				Trace.Subscribe(this);
+				Trace.TraceLevel(NkTrace::CTrace::TraceLevel_3);
+				NkSocket::CSocket::initialize();
+				NkSSL::COpenSSLCtx::initialize();
+				break;
+			}
+			case DLL_PROCESS_DETACH: {
+				NkSocket::CSocket::cleanup();
+				NkSSL::COpenSSLCtx::cleanup();
+				NkTrace::CTrace::Instance().UnSubscribe(this);
+				break;
+			}
 		}
 	}
 	catch (NkError::CException& e) {
@@ -186,7 +167,7 @@ HRESULT CDllModule::on_logon(NkCom::CServer* p)
 	NkUtil::CPassVault vault(reg.FullName());
 
 	if (vault.readIf()) {
-		LPBYTE pBlob = 0;
+		LPBYTE pBlob = nullptr;
 		size_t cb = 0;
 		vault.createAuthenticationBlob(&pBlob, cb);
 		HRESULT hr = p->remote_logon(pBlob, cb);
@@ -199,7 +180,7 @@ HRESULT CDllModule::on_logon(NkCom::CServer* p)
 	bool bSafe = false;
 	NkType::CString strCaption(L"Please enter your server credentials.");
 	if (vault.cred_dlg(strCaption, reg.FullName(), &bSafe)) {
-		LPBYTE pBlob = 0;
+		LPBYTE pBlob = nullptr;
 		size_t cb = 0;
 		vault.createAuthenticationBlob(&pBlob, cb);
 		HRESULT hr = p->remote_logon(pBlob, cb);
