@@ -105,16 +105,16 @@ namespace NkSSL {
 
 	void CSocket::get_peer_address(std::string& address) const
 	{
-		sockaddr_in addr_in;
+		sockaddr_in address_in = { 0 };
 		int cb = sizeof(sockaddr_in);
-		int ret = getpeername(m_socket, (SOCKADDR*)&address, &cb);
+		const auto ret = getpeername(m_socket, reinterpret_cast<SOCKADDR*>(&address_in), &cb);
 		NkError::CSocketException::check(ret, "getpeername", __FILE__, __LINE__);
 
 		char buffer[16] = "";
-		inet_ntop(AF_INET, &addr_in.sin_addr, buffer, sizeof(buffer));
+		inet_ntop(AF_INET, &address_in.sin_addr, buffer, sizeof(buffer));
 		address = buffer;
 		address += "/";
-		address += std::to_string(ntohs(addr_in.sin_port));
+		address += std::to_string(ntohs(address_in.sin_port));
 	}
 
 	size_t CSocket::read(void* p, size_t cb, ULONG32 id /*= 0*/)

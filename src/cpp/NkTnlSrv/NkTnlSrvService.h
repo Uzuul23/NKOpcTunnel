@@ -22,24 +22,24 @@
 
 #pragma once
 
-class CNkTnlSrvService 
+class CNkTnlSrvService
 	: public NkService::CServiceBase
-	, public NkCom::CServerEvent
-	, public NkTrace::CTraceEvent
+	  , public NkCom::CServerEvent
+	  , public NkTrace::CTraceEvent
 {
 public:
 	CNkTnlSrvService(LPCWSTR pszServiceName);
 	~CNkTnlSrvService(void);
 
 	//CTraceEvent
-	virtual void TraceOut(NkTrace::CTrace::TraceClasses traceclass, const wchar_t* pszText);
+	void TraceOut(NkTrace::CTrace::TraceClasses traceclass, const wchar_t* pszText) override;
 
 	//CServiceBase
-	virtual void OnStart(DWORD dwArgc, PWSTR *pszArgv);
-	virtual void OnStop();
+	void OnStart(DWORD dwArgc, PWSTR* pszArgv) override;
+	void OnStop() override;
 
 	//NkCom::CServerEvent
-	virtual void on_shutdown(NkCom::CServer* p);
+	void on_shutdown(NkCom::CServer* p) override;
 
 	//CSocketListener
 	void on_accept(SOCKET so);
@@ -47,9 +47,9 @@ public:
 private:
 	std::list<NkCom::CServer*> m_Servers;
 	NkSocket::CSocketListener<CNkTnlSrvService> m_Listener;
-	NkTrace::CLogFile *m_pLogFile = 0;
+	NkTrace::CLogFile* m_pLogFile = nullptr;
 	NkThreading::CCriticalSection m_lock;
-	bool m_shutdown;
+	bool m_shutdown = false;
 	bool m_use_ssl = true;
 	ULONG32 m_next_server_id = 0;
 	NkSSL::COpenSSLCtx m_ssl_ctx;

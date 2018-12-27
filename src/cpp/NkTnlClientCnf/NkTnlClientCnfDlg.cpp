@@ -39,15 +39,65 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	DECLARE_MESSAGE_MAP()
+public:
+	CString m_strSoftware;
+	CString m_strAuthor;
+	CString m_strLicense;
+	CMFCLinkCtrl m_wndMailto;
+	CMFCLinkCtrl m_wndURL;
+	CMFCLinkCtrl m_wndLicURL;
+	virtual BOOL OnInitDialog();
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
+, m_strSoftware(_T(""))
+, m_strAuthor(_T(""))
+, m_strLicense(_T(""))
 {
+}
+
+BOOL CAboutDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+
+
+	m_strAuthor.LoadString(IDS_AUTHOR);
+	m_strSoftware.LoadString(IDS_SOFTWARE);
+	m_strLicense.LoadString(IDS_LICENSE);
+
+	CString str;
+	str.LoadString(IDS_MAILTO);
+	m_wndMailto.SetURLPrefix(L"mailto:");
+	m_wndMailto.SetWindowText(str);
+	m_wndMailto.SetURL(str);
+	m_wndMailto.SizeToContent();
+
+	str.LoadString(IDS_URL);
+	m_wndURL.SetURLPrefix(L"http://");
+	m_wndURL.SetWindowText(str);
+	m_wndURL.SetURL(str);
+	m_wndURL.SizeToContent();
+
+	str.LoadString(IDS_LIC_URL);
+	m_wndLicURL.SetURLPrefix(L"http://");
+	m_wndLicURL.SetWindowText(str);
+	m_wndLicURL.SetURL(str);
+	m_wndLicURL.SizeToContent();
+
+	UpdateData(FALSE);
+
+	return TRUE;
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
 	__super::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_STATIC_SOFTWARE, m_strSoftware);
+	DDX_Text(pDX, IDC_STATIC_AUTHOR, m_strAuthor);
+	DDX_Text(pDX, IDC_STATIC_LICENSE, m_strLicense);
+	DDX_Control(pDX, IDC_BUTTON_MAILTO, m_wndMailto);
+	DDX_Control(pDX, IDC_BUTTON_URL, m_wndURL);
+	DDX_Control(pDX, IDC_BUTTON_LIC_URL, m_wndLicURL);
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
@@ -201,13 +251,13 @@ void CNkTnlClientCnfDlg::OnBnClickedButtonAdd()
 		int i = 1;
 		while (true) {
 			bool bFind = false;
-			for (INT_PTR loop = 0; loop < dlg.m_strNames.GetSize(); ++loop) {
+			for (auto loop = 0; loop < dlg.m_strNames.GetSize(); ++loop) {
 				if (dlg.m_strNames[loop] == dlg.m_strTunnelName) {
 					bFind = true;
 					break;
 				}
 			}
-			if (bFind) {
+			if (!bFind) {
 				break;
 			}
 			++i;

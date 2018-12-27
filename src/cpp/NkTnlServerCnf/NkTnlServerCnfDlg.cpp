@@ -49,15 +49,65 @@ protected:
 	// Implementation
 protected:
 DECLARE_MESSAGE_MAP()
+public:
+	virtual BOOL OnInitDialog();
+	
+	CString m_strAuthor;
+	CString m_strSoftware;
+	CString m_strLicense;
+	CMFCLinkCtrl m_wndURL;
+	CMFCLinkCtrl m_wndLicURL;
+	CMFCLinkCtrl m_wndMailto;
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
+, m_strAuthor(_T(""))
+, m_strSoftware(_T(""))
+, m_strLicense(_T(""))
 {
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_BUTTON_MAILTO, m_wndMailto);
+	DDX_Text(pDX, IDC_STATIC_AUTHOR, m_strAuthor);
+	DDX_Text(pDX, IDC_STATIC_SOFTWARE, m_strSoftware);
+	DDX_Text(pDX, IDC_STATIC_LICENSE, m_strLicense);
+	DDX_Control(pDX, IDC_BUTTON_URL, m_wndURL);
+	DDX_Control(pDX, IDC_BUTTON_LIC_URL, m_wndLicURL);
+}
+
+BOOL CAboutDlg::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	m_strAuthor.LoadString(IDS_AUTHOR);
+	m_strSoftware.LoadString(IDS_SOFTWARE);
+	m_strLicense.LoadString(IDS_LICENSE);
+
+	CString str;
+	str.LoadString(IDS_MAILTO);
+	m_wndMailto.SetURLPrefix(L"mailto:");
+	m_wndMailto.SetWindowText(str);
+	m_wndMailto.SetURL(str);
+	m_wndMailto.SizeToContent();
+
+	str.LoadString(IDS_URL);
+	m_wndURL.SetURLPrefix(L"http://");
+	m_wndURL.SetWindowText(str);
+	m_wndURL.SetURL(str);
+	m_wndURL.SizeToContent();
+
+	str.LoadString(IDS_LIC_URL);
+	m_wndLicURL.SetURLPrefix(L"http://");
+	m_wndLicURL.SetWindowText(str);
+	m_wndLicURL.SetURL(str);
+	m_wndLicURL.SizeToContent();
+
+	UpdateData(FALSE);
+
+	return TRUE;
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
@@ -256,7 +306,8 @@ void CNkTnlServerCnfDlg::NeedRestart()
 
 void CNkTnlServerCnfDlg::UpdateServiceStatus()
 {
-	SC_HANDLE hSCM = ::OpenSCManager(nullptr, nullptr, GENERIC_WRITE);
+	const auto hSCM = ::OpenSCManager(nullptr, nullptr, GENERIC_READ);
+
 	CString strStatusText(L"--error--");
 	if (hSCM == nullptr) {
 		GetDlgItem(IDC_EDIT_SERVICE_STATUS)->SetWindowText(strStatusText);
@@ -264,15 +315,16 @@ void CNkTnlServerCnfDlg::UpdateServiceStatus()
 	}
 
 	const auto hService = ::OpenService(hSCM, NKOPCTnl::ServiceName, SC_MANAGER_ALL_ACCESS);
-	m_bServiceInstalled = hService == nullptr;
+	m_bServiceInstalled = hService != nullptr;
 	m_bServiceRunning = false;
 
 	if (hService) {
 		DWORD dwBytesNeeded = 0;
 		SERVICE_STATUS_PROCESS ssStatus = {0};
 
-		BOOL Ret = QueryServiceStatusEx(hService, SC_STATUS_PROCESS_INFO
-		                                , (LPBYTE)&ssStatus, sizeof(SERVICE_STATUS_PROCESS), &dwBytesNeeded);
+		QueryServiceStatusEx(hService, SC_STATUS_PROCESS_INFO
+		    , reinterpret_cast<LPBYTE>(&ssStatus)
+			, sizeof(SERVICE_STATUS_PROCESS), &dwBytesNeeded);
 
 		m_bServiceRunning = ssStatus.dwCurrentState == SERVICE_RUNNING;
 	}
@@ -574,3 +626,6 @@ void CNkTnlServerCnfDlg::OnBnClickedCheckVerifyClient()
 	Changed();
 	NeedRestart();
 }
+
+
+

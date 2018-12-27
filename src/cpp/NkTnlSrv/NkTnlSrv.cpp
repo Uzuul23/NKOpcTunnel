@@ -26,7 +26,7 @@
 CNkTnlSrvService g_Service(NKOPCTnl::ServiceName);
 NkThreading::CEvent g_KillEvent;
 
-BOOL ctrl_handler(DWORD fdwCtrlType)
+BOOL WINAPI ctrl_handler(DWORD fdwCtrlType)
 {
 	if (g_Service.StartedAsService()) {
 		return FALSE;
@@ -127,8 +127,9 @@ int wmain(int argc, wchar_t* argv[])
 				//TODO:
 				NkService::CServiceManager SCManager(NKOPCTnl::ServiceName, nullptr, nullptr
 				                                     , SC_MANAGER_CONNECT | SC_MANAGER_CREATE_SERVICE);
+
 				SCManager.create(L"Nk OPC Tunnel Server"
-				                 , L"Dieser Service stellt OPC Server auf entfernten Rechnern bereit");
+				                 , L"This service provide OPC Server for remote computer");
 				wprintf(L"Service %s successfully installed", NKOPCTnl::ServiceName);
 			}
 			else if (_wcsicmp(L"remove", argv[1] + 1) == 0) {
@@ -151,7 +152,7 @@ int wmain(int argc, wchar_t* argv[])
 			}
 		}
 		else {
-			SetConsoleCtrlHandler((PHANDLER_ROUTINE)ctrl_handler, TRUE);
+			SetConsoleCtrlHandler(static_cast<PHANDLER_ROUTINE>(ctrl_handler), TRUE);
 			NkService::CServiceBase::main(&g_Service, argc, argv);
 		}
 	}

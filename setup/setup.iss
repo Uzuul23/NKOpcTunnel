@@ -1,8 +1,8 @@
 #define NkAppVersion "0.9.1"
-#define NkAppPublisher "Henryk Anschütz / Berlin Germany"
+#define NkAppPublisher "Henryk Anschuetz / Berlin Germany"
 #define NKAppName "NKOPCTunnel"
 #define NKAppCopyright "Copyright (C) Henryk Anschuetz"
-#define MyAppURL "https://www.github.com/uzuul23"
+#define MyAppURL "https://www.github.com/uzuul23/NkOpcTunnel"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -21,9 +21,10 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#NKAppName}
 DefaultGroupName={#NKAppName}
 OutputDir=.\
-OutputBaseFilename={#NKAppName}_client_setup_v{#NkAppVersion}
-Compression=lzma
+OutputBaseFilename={#NKAppName}_setup_x86_v{#NkAppVersion}
+; Compression=none
 SolidCompression=yes
+SetupLogging=yes
 
 ; Cosmetic 
 WizardImageFile=..\icon\VTOPCTunnel_banner_2.bmp
@@ -51,10 +52,13 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "full"; Description: "Full installation";
 Name: "client-only"; Description: "Client installation";
 Name: "server-only"; Description: "Server installation";
+Name: "custom"; Description: "Custom installation"; Flags: iscustom 
 
 [Components]
-Name: "client"; Description: "Client Files"; Types: full client-only
-Name: "server"; Description: "Server Files"; Types: full server-only
+Name: "client"; Description: "client files"; Types: full client-only
+Name: "server"; Description: "server files"; Types: full server-only
+Name: "vcredist"; Description: "MS VC++ redistributable runtime files"; Types: full server-only client-only
+Name: "openssl"; Description: "OpenSSL runtime files"; Types: full server-only client-only
 
 [Files]
 ; Client
@@ -64,7 +68,7 @@ Source: "..\bin\NkTnlClientCnf.exe";  DestDir: "{app}\bin"; Flags: ignoreversion
 Source: "..\cert\ca.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: client
 Source: "..\cert\client.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: client
 Source: "..\cert\client.key";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: client
-
+                                  
 ; Server
 Source: "..\bin\NkTnlSrv.exe";  DestDir: "{app}\bin"; Flags: ignoreversion; Components: server
 Source: "..\bin\NkTnlServerCnf.exe";  DestDir: "{app}\bin"; Flags: ignoreversion; Components: server
@@ -73,18 +77,56 @@ Source: "..\cert\ca.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Componen
 Source: "..\cert\server.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
 Source: "..\cert\server.key";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
 
+; VC++ redist
+Source: "c:\redist\vc_redist.x86.exe"; DestDir: {tmp}; Flags: dontcopy; Components: vcredist
+
+; OpenSSL DLL's
+Source: "C:\OpenSSL-Win32\ssleay32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall; Components: openssl
+Source: "C:\OpenSSL-Win32\libssl32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall; Components: openssl
+Source: "C:\OpenSSL-Win32\libeay32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall; Components: openssl
+
 [Icons]
 Name: "{group}\Nk OPC Server Tool"; Filename: "{app}\bin\NkTnlServerCnf.exe"; Components: server
 Name: "{group}\Nk OPC Client Tool"; Filename: "{app}\bin\NkTnlClientCnf.exe"; Components: client
 Name: "{group}\{cm:UninstallProgram,{#NKAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
-Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-register"; StatusMsg: "register server"; Components: server
-Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-install"; StatusMsg: "install service"; Components: server
-Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-start"; StatusMsg: "start service"; Components: server
+Filename: "{tmp}\vc_redist.x86.exe"; Parameters: "/q /norestart"; \
+    Check: VCRedistNeedsInstall; StatusMsg: "Installing VC++ redistributables..."; Components: vcredist
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-register"; StatusMsg: "register server..."; Flags: runhidden; Components: server
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-install"; StatusMsg: "install service..."; Flags: runhidden; Components: server
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-start"; StatusMsg: "start service..."; Flags: runhidden; Components: server
 
 [UninstallRun]
-Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-stop"; StatusMsg: "stop service"; Components: server
-Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-remove"; StatusMsg: "remove service"; Components: server
-Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-unregister"; StatusMsg: "(un)register server"; Components: server
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-stop"; StatusMsg: "stop service..."; Flags: runhidden; Check: NkServerInstalled
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-remove"; StatusMsg: "remove service..."; Flags: runhidden; Check: NkServerInstalled
+Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-unregister"; StatusMsg: "(un)register server..."; Flags: runhidden; Check: NkServerInstalled
 
+[Code]
+function VCRedistNeedsInstall: Boolean;
+var 
+  Version: String;
+begin
+  if (RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86', 'Version', Version)) then
+  begin
+    Log('VC Redist Version check : found ' + Version);
+    Result := (CompareStr(Version, 'v14.16.27012.06')<0);
+  end
+  else 
+  begin
+    // Not even an old version installed
+    Result := True;
+  end;
+  if (Result) then
+  begin
+    ExtractTemporaryFile('vc_redist.x86.exe');
+  end;
+end;
+
+function NkServerInstalled: Boolean;
+var
+  FileName: String;
+begin
+  FileName :=  ExpandConstant('{app}') +  '\bin\NkTnlSrv.exe';
+  Result := FileExists(FileName);
+end;

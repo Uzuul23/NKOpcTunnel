@@ -26,7 +26,6 @@
 
 CNkTnlSrvService::CNkTnlSrvService(LPCWSTR pszServiceName)
 	: CServiceBase(pszServiceName)
-	  , m_shutdown(false)
 {
 	NkTrace::CTrace& Trace = NkTrace::CTrace::Instance();
 	Trace.Subscribe(this);
@@ -86,6 +85,7 @@ void CNkTnlSrvService::OnStart(DWORD dwArgc, PWSTR* pszArgv)
 	try {
 
 		if (m_use_ssl) {
+
 			m_ssl_ctx.create_TLSv1_2_server();
 
 			std::string path;
@@ -141,55 +141,53 @@ void CNkTnlSrvService::on_accept(SOCKET so)
 {
 	NkThreading::CLockGuard lock(m_lock);
 
-	NkOPC::COPCFarSrv* p_server = nullptr;
+	NkOPC::COPCFarSrv* server = nullptr;
 
 	try {
 
 		if (m_use_ssl) {
-			NkSSL::CSocket* p_socket = new NkSSL::CSocket(so);
+			auto socket = new NkSSL::CSocket(so);
 
 			try {
-				p_socket->ssl_accept(m_ssl_ctx);
+				socket->ssl_accept(m_ssl_ctx);
 			}
 			catch (...) {
-				delete p_socket;
+				delete socket;
 				throw;
 			}
 
-			NkOPC::COPCFarSrv* p_server = new NkOPC::COPCFarSrv(p_socket, this, true);
+			server = new NkOPC::COPCFarSrv(socket, this);
 
-			p_server->server_id(++m_next_server_id);
-			p_server->AddRef();
+			server->server_id(++m_next_server_id);
+			server->AddRef();
 
-			//TODO: will crash!
-			/*std::string peer_name;
-			p_socket->get_peer_addr(peer_name);
-			NkTrace::CTrace::trace_info("COPCFarSrv -- client[%d] connected from : %s"
-				, m_next_server_id, peer_name.c_str());*/
+			std::string peer_name;
+			socket->get_peer_address(peer_name);
+			NkTrace::CTrace::trace_info("COPCFarSrv -- client[%d] ssl connected from : %s"
+				, m_next_server_id, peer_name.c_str());
 
 		}
 		else {
-			NkSocket::CSocket* p_socket = new NkSocket::CSocket(so);
-			NkOPC::COPCFarSrv* p_server = new NkOPC::COPCFarSrv(p_socket, this, true);
+			auto socket = new NkSocket::CSocket(so);
+			
+			server = new NkOPC::COPCFarSrv(socket, this);
 
-			p_server->server_id(++m_next_server_id);
-			p_server->AddRef();
+			server->server_id(++m_next_server_id);
+			server->AddRef();
 
 			std::string peer_name;
-			p_socket->get_peer_addr(peer_name);
+			socket->get_peer_addr(peer_name);
 			NkTrace::CTrace::trace_info("COPCFarSrv -- client[%d] connected from : %s"
 			                            , m_next_server_id, peer_name.c_str());
 
 		}
 
-		m_Servers.push_back(p_server);
+		m_Servers.push_back(server);
 	}
 	catch (NkError::CException& e) {
 		e.report();
-		delete p_server;
+		delete server;
 	}
-
-	//#endif
 }
 
 void CNkTnlSrvService::on_shutdown(NkCom::CServer* p)

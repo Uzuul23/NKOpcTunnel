@@ -68,6 +68,12 @@ HRESULT CDllModule::DllUnregisterServer()
 		keySettings.Open(NKOPCTnl::RegKeySettings, key);
 		keySettings.DeleteKeyValueIf(NKOPCTnl::RegValueClientInstallPath);
 		keySettings.DeleteKeyValueIf(NKOPCTnl::RegValueClientCertPath);
+
+		std::vector<NkOPC::CTunnelRegEntry> entries;
+		NkOPC::CTunnelRegEntry::EnumEntries(entries);
+		for (auto i : entries) {
+			i.Remove();
+		}
 	}
 	catch (NkError::CException& e) {
 		e.report();
