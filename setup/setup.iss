@@ -1,6 +1,6 @@
 #define NkAppVersion "0.9.1"
-#define NkAppPublisher "Henryk Anschuetz / Berlin Germany"
-#define NKAppName "NKOPCTunnel"
+#define NkAppPublisher "Henryk Anschuetz, Berlin Germany"
+#define NKAppName "NkOpcTunnel"
 #define NKAppCopyright "Copyright (C) Henryk Anschuetz"
 #define MyAppURL "https://www.github.com/uzuul23/NkOpcTunnel"
 
@@ -61,6 +61,15 @@ Name: "vcredist"; Description: "MS VC++ redistributable runtime files"; Types: f
 Name: "openssl"; Description: "OpenSSL runtime files"; Types: full server-only client-only
 
 [Files]
+
+; VC++ redist
+Source: "c:\redist\vc_redist.x86.exe"; DestDir: {tmp}; Flags: dontcopy; Components: vcredist
+
+; OpenSSL DLL's
+Source: "C:\OpenSSL-Win32\ssleay32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall; Components: openssl
+Source: "C:\OpenSSL-Win32\libssl32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall; Components: openssl
+Source: "C:\OpenSSL-Win32\libeay32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall; Components: openssl
+
 ; Client
 Source: "..\bin\NkTnlClient.dll";  DestDir: "{app}\bin"; Flags: ignoreversion regserver; Components: client
 Source: "..\bin\NkTnlClientCnf.exe";  DestDir: "{app}\bin"; Flags: ignoreversion; Components: client
@@ -76,14 +85,6 @@ Source: "..\bin\NkTnlServerCnf.exe";  DestDir: "{app}\bin"; Flags: ignoreversion
 Source: "..\cert\ca.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
 Source: "..\cert\server.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
 Source: "..\cert\server.key";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
-
-; VC++ redist
-Source: "c:\redist\vc_redist.x86.exe"; DestDir: {tmp}; Flags: dontcopy; Components: vcredist
-
-; OpenSSL DLL's
-Source: "C:\OpenSSL-Win32\ssleay32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall; Components: openssl
-Source: "C:\OpenSSL-Win32\libssl32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall; Components: openssl
-Source: "C:\OpenSSL-Win32\libeay32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall; Components: openssl
 
 [Icons]
 Name: "{group}\Nk OPC Server Tool"; Filename: "{app}\bin\NkTnlServerCnf.exe"; Components: server
