@@ -1,5 +1,5 @@
 #### OPCTunneller
-Allows OPC (classic) data transfers between computers over TCP/IP without DCOM
+Allows OPC (classic) data transfers between computers over TCP/IP (possible SSL) without DCOM
 ##### Components
 - Server side
 	- NKOpcTnlSrv.exe (Service) 
