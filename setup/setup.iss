@@ -57,13 +57,9 @@ Name: "custom"; Description: "Custom installation"; Flags: iscustom
 [Components]
 Name: "client"; Description: "client files"; Types: full client-only
 Name: "server"; Description: "server files"; Types: full server-only
-Name: "vcredist"; Description: "MS VC++ redistributable runtime files"; Types: full server-only client-only
 Name: "openssl"; Description: "OpenSSL runtime files"; Types: full server-only client-only
 
 [Files]
-
-; VC++ redist
-Source: "c:\redist\vc_redist.x86.exe"; DestDir: {tmp}; Flags: dontcopy; Components: vcredist
 
 ; OpenSSL DLL's
 Source: "C:\OpenSSL-Win32\ssleay32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntexist uninsneveruninstall; Components: openssl
@@ -73,7 +69,6 @@ Source: "C:\OpenSSL-Win32\libeay32.dll"; DestDir: "{sys}"; Flags: onlyifdoesntex
 ; Client
 Source: "..\bin\NkTnlClient.dll";  DestDir: "{app}\bin"; Flags: ignoreversion regserver; Components: client
 Source: "..\bin\NkTnlClientCnf.exe";  DestDir: "{app}\bin"; Flags: ignoreversion; Components: client
-
 Source: "..\cert\ca.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: client
 Source: "..\cert\client.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: client
 Source: "..\cert\client.key";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: client
@@ -81,7 +76,6 @@ Source: "..\cert\client.key";  DestDir: "{app}\cert"; Flags: ignoreversion; Comp
 ; Server
 Source: "..\bin\NkTnlSrv.exe";  DestDir: "{app}\bin"; Flags: ignoreversion; Components: server
 Source: "..\bin\NkTnlServerCnf.exe";  DestDir: "{app}\bin"; Flags: ignoreversion; Components: server
-
 Source: "..\cert\ca.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
 Source: "..\cert\server.crt";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
 Source: "..\cert\server.key";  DestDir: "{app}\cert"; Flags: ignoreversion; Components: server
@@ -92,8 +86,6 @@ Name: "{group}\Nk OPC Client Tool"; Filename: "{app}\bin\NkTnlClientCnf.exe"; Co
 Name: "{group}\{cm:UninstallProgram,{#NKAppName}}"; Filename: "{uninstallexe}"
 
 [Run]
-Filename: "{tmp}\vc_redist.x86.exe"; Parameters: "/q /norestart"; \
-    Check: VCRedistNeedsInstall; StatusMsg: "Installing VC++ redistributables..."; Components: vcredist
 Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-register"; StatusMsg: "register server..."; Flags: runhidden; Components: server
 Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-install"; StatusMsg: "install service..."; Flags: runhidden; Components: server
 Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-start"; StatusMsg: "start service..."; Flags: runhidden; Components: server
@@ -104,30 +96,66 @@ Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-remove"; StatusMsg: "remove se
 Filename: "{app}\bin\NkTnlSrv.exe"; Parameters: "-unregister"; StatusMsg: "(un)register server..."; Flags: runhidden; Check: NkServerInstalled
 
 [Code]
-function VCRedistNeedsInstall: Boolean;
+
+function VCRedist14NeedInstall: Boolean;
 var 
   Version: String;
 begin
   if (RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x86', 'Version', Version)) then
   begin
     Log('VC Redist Version check : found ' + Version);
-    Result := (CompareStr(Version, 'v14.16.27012.06')<0);
+    Result := False;
   end
   else 
   begin
-    // Not even an old version installed
     Result := True;
-  end;
-  if (Result) then
-  begin
-    ExtractTemporaryFile('vc_redist.x86.exe');
   end;
 end;
 
-function NkServerInstalled: Boolean;
+function VCRedist12NeedInstall(): Boolean;
+var 
+  Version: String;
+begin
+  if (RegQueryStringValue(HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\VisualStudio\12.0\VC\Runtimes\x86', 'Version', Version)) then
+  begin
+    Log('VC Redist Version check : found ' + Version);
+    Result := False;
+  end
+  else 
+  begin
+    Result := True;
+  end;
+end;
+
+function NkServerInstalled(): Boolean;
 var
   FileName: String;
 begin
   FileName :=  ExpandConstant('{app}') +  '\bin\NkTnlSrv.exe';
   Result := FileExists(FileName);
+end;
+
+function InitializeSetup(): Boolean;
+var
+  Msg: String;
+begin
+  Result := True;
+
+  if VCRedist12NeedInstall() then begin
+    Msg := Msg + 'Microsoft Visual C++ 2013 Redistributable (x86)-> not found' + #13#10;
+    Result := False;
+  end;
+
+  if VCRedist14NeedInstall() then begin
+    Msg := Msg + 'Microsoft Visual C++ 2017 Redistributable (x86)-> not found' + #13#10;
+    Result := False;
+  end;
+
+  if Result = False then begin
+    Msg := Msg + 'It is required! Continue Anyway?'
+    if MsgBox(Msg, mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES then
+    begin
+      Result := True;
+    end;
+  end;
 end;
