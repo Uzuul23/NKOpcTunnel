@@ -14,7 +14,7 @@ Allows OPC (classic) data transfers between computers over TCP/IP without DCOM
 	- NkTnlClientCnf.exe
 		- Manage the tunnel connections
 		- Select remote OPC Servers
-		- Test connection
+		- Test connections
 ##### Operating System
 - Microsoft Windows7 or (maybe) greater
 ##### Build Environment
